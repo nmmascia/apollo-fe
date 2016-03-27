@@ -1,0 +1,28 @@
+{
+  "parser": "babel-eslint",
+  "extends": "eslint-config-airbnb",
+  "parserOptions": {
+    "ecmaVersion": 7,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "plugins": ["react"],
+  "rules": {
+    "no-undef": 2,
+    "indent": [2, 4, {"SwitchCase": 1}],
+    "arrow-body-style": 0,
+    "object-curly-spacing": 0,
+    "react/jsx-indent-props": [2, 4],
+    "react/jsx-no-bind": 0,
+    "react/jsx-boolean-value": 0,
+    "react/no-deprecated": 0,
+    "react/no-is-mounted": 0
+  }
+}
