@@ -1,0 +1,8 @@
+.container {
+    padding: 5px;
+}
+
+.section {
+    display: inline-block;
+    width: 50%;
+}

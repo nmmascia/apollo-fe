@@ -18,7 +18,6 @@ import DevTools from 'utils/DevTools';
 import configureStore from 'utils/configureStore';
 
 import AppContainer from 'containers/AppContainer';
-import LoginContainer from 'containers/LoginContainer';
 import ProfileContainer from 'containers/ProfileContainer';
 
 // disable if prod
@@ -31,7 +30,7 @@ const Root = () => (
         <div>
             <Router history={browserHistory}>
                 <Route path="/" component={AppContainer}>
-                    <IndexRoute component={LoginContainer} />
+                    <IndexRoute component={ProfileContainer} />
                     <Route path="/profile" component={ProfileContainer} />
                 </Route>
             </Router>

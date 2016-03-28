@@ -1,13 +1,13 @@
+import AudioRecorder from 'react-audio-recorder';
 import { connect } from 'react-redux';
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
-import AudioRecorder from 'react-audio-recorder';
 
-import PoemViewer from 'components/PoemViewer';
+import Profile from 'components/Profile';
 
 const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
 
-const poem = {
+const MOCK_POEM = {
     title: 'Tho\' I get home how late -- how late',
     author: 'Emily Dickinson',
     linecount: 13,
@@ -30,33 +30,36 @@ const poem = {
 };
 
 @connect(state => ({
+    name: state.user.name,
+    poem: MOCK_POEM,
     username: state.user.username,
 }))
 export default class ProfileContainer extends Component {
     static propTypes = {
+        name: PropTypes.string,
+        poem: PropTypes.shape({
+            author: PropTypes.string.isRequired,
+            lines: PropTypes.arrayOf(PropTypes.string).isRequired,
+            title: PropTypes.string.isRequired,
+        }),
         username: PropTypes.string.isRequired,
     };
 
     render() {
+        const {
+            name,
+            poem,
+            username,
+        } = this.props;
+
         return (
-            <div>
-                <span>Hello {this.props.username}</span>
-                <div>
-                    <PoemViewer
-                        author={poem.author}
-                        title={poem.title}
-                        lines={poem.lines}
-                    />
-                    {/*
-                        AudioRecorder not recommended for long audio
-                        samples. But we can use this for now until
-                        a better solution is neeeded.
-                    */}
-                    <AudioRecorder
-                        onChange={data => log('audio: ', data)}
-                    />
-                </div>
-            </div>
+            <Profile
+                name={name}
+                onAudioRecorded={data => log(data)}
+                onFollowUser={user => log(user)}
+                poem={poem}
+                username={username}
+            />
         );
     }
 }

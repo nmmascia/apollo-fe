@@ -1,11 +1,13 @@
 import React, { Component, PropTypes } from 'react';
 
+import PoemHeader from './PoemHeader';
+
 export default class PoemViewer extends Component {
     static propTypes = {
         author: PropTypes.string.isRequired,
         title: PropTypes.string.isRequired,
         lines: PropTypes.arrayOf(PropTypes.string).isRequired,
-    }
+    };
 
     renderLines() {
         const { lines } = this.props;
@@ -24,10 +26,10 @@ export default class PoemViewer extends Component {
 
         return (
             <div>
-                <header>
-                    <span>{title}</span>
-                    <span>{author}</span>
-                </header>
+                <PoemHeader
+                    author={author}
+                    title={title}
+                />
                 {this.renderLines()}
             </div>
         );
