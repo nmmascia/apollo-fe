@@ -17,19 +17,22 @@ export default class AppHeader extends Component {
         } = this.props;
 
         return (
-            <header>
+            <header className={styles.container}>
                 <ul className={styles.links}>
-                    <li>apollo</li>
+                    <li className={styles.logo}>-- apollo --</li>
                     <li>
-                        <Link to="/profile" />
+                        <Link className={styles.anchorTag} to="/profile">Profile</Link>
                     </li>
                 </ul>
 
-                <div className={styles.login}>
-                    <Button>
-                        {userId ? 'Login' : 'Logout'}
-                    </Button>
-                </div>
+                <ul className={styles.links}>
+                    <li>{username}</li>
+                    <li>
+                        <Button>
+                            {userId ? 'Login' : 'Logout'}
+                        </Button>
+                    </li>
+                </ul>
             </header>
         );
     }

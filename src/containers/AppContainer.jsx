@@ -3,6 +3,10 @@ import React, { PropTypes } from 'react';
 
 import AppHeader from 'components/AppHeader';
 
+import { getCurrentUser } from 'reducers/users';
+
+import './global.css';
+
 const AppContainer = ({ children, userId, username }) => (
     <div>
         <AppHeader
@@ -20,8 +24,8 @@ AppContainer.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    userId: state.user._id,
-    username: state.user.username,
+    userId: getCurrentUser(state)._id,
+    username: getCurrentUser(state).username,
 });
 
 export default connect(mapStateToProps)(AppContainer);

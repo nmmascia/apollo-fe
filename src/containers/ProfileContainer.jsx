@@ -1,9 +1,13 @@
-import AudioRecorder from 'react-audio-recorder';
 import { connect } from 'react-redux';
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 
 import Profile from 'components/Profile';
+
+import {
+    getCurrentUser,
+    getUserInfo,
+} from 'reducers/users';
 
 const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
 
@@ -29,14 +33,16 @@ const MOCK_POEM = {
     ],
 };
 
-@connect(state => ({
-    name: state.user.name,
+@connect((state, props) => ({
+    name: getUserInfo(state, props).name,
+    profilePicture: getCurrentUser(state).profilePicture,
     poem: MOCK_POEM,
-    username: state.user.username,
+    username: getUserInfo(state, props).username,
 }))
 export default class ProfileContainer extends Component {
     static propTypes = {
         name: PropTypes.string,
+        profilePicture: PropTypes.string,
         poem: PropTypes.shape({
             author: PropTypes.string.isRequired,
             lines: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -48,6 +54,7 @@ export default class ProfileContainer extends Component {
     render() {
         const {
             name,
+            profilePicture,
             poem,
             username,
         } = this.props;
@@ -57,6 +64,7 @@ export default class ProfileContainer extends Component {
                 name={name}
                 onAudioRecorded={data => log(data)}
                 onFollowUser={user => log(user)}
+                profilePicture={profilePicture}
                 poem={poem}
                 username={username}
             />

@@ -19,6 +19,7 @@ export default class Profile extends Component {
             lines: PropTypes.arrayOf(PropTypes.string).isRequired,
             title: PropTypes.string.isRequired,
         }),
+        profilePicture: PropTypes.string.isRequired,
         username: PropTypes.string.isRequired,
     };
 
@@ -27,6 +28,7 @@ export default class Profile extends Component {
             name,
             onAudioRecorded,
             onFollowUser,
+            profilePicture,
             poem: {
                 author,
                 lines,
@@ -39,17 +41,23 @@ export default class Profile extends Component {
             <div>
                 <ProfileHeader
                     name={name}
-                    username={username}
                     onFollowUser={onFollowUser}
+                    profilePicture={profilePicture}
+                    username={username}
                 />
-                <PoemViewer
-                    author={author}
-                    lines={lines}
-                    title={title}
-                />
-                <AudioRecorder
-                    onChange={data => onAudioRecorded(data)}
-                />
+                <section>
+                    <header>
+                        <h1>Current Poem</h1>
+                    </header>
+                    <PoemViewer
+                        author={author}
+                        lines={lines}
+                        title={title}
+                    />
+                    <AudioRecorder
+                        onChange={data => onAudioRecorded(data)}
+                    />
+                </section>
             </div>
         );
     }

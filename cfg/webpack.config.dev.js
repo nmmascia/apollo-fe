@@ -29,10 +29,9 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[path][name]___[hash:base64:5]!postcss-loader!',
-                include: path.join(__dir, 'src'),
             },
             {
-                test: /\.(mp3|wav|ogg)$/,
+                test: /\.(jpg|png|mp3|wav|ogg)$/,
                 loader: 'file-loader',
                 include: path.join(__dir, 'src'),
             },

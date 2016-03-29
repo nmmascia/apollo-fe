@@ -1,8 +1,12 @@
 .container {
-    padding: 5px;
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 5px 0 5px;
+    border-bottom: 5px solid #4527a0;
 }
 
-.section {
+.userInfo {
     display: inline-block;
-    width: 50%;
+    vertical-align: top;
+    margin: 0 10px;
 }

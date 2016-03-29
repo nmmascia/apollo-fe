@@ -2,7 +2,7 @@ import debug from 'debug';
 
 // React
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 
 // React Router
 import {
@@ -31,7 +31,7 @@ const Root = () => (
             <Router history={browserHistory}>
                 <Route path="/" component={AppContainer}>
                     <IndexRoute component={ProfileContainer} />
-                    <Route path="/profile" component={ProfileContainer} />
+                    <Route path="/profile(/:_id)" component={ProfileContainer} />
                 </Route>
             </Router>
             <DevTools store={store} />
@@ -39,7 +39,7 @@ const Root = () => (
     </Provider>
 );
 
-ReactDOM.render(
+render(
     <Root />,
     document.getElementById('root')
 );
