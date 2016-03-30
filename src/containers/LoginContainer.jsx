@@ -1,6 +1,9 @@
+import { connect } from 'react-redux';
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
+
+import { loginUser } from 'reducers/users';
 
 const log = debug('ap.LoginContainer'); // eslint-disable-line no-unused-vars
 
@@ -8,19 +11,26 @@ const log = debug('ap.LoginContainer'); // eslint-disable-line no-unused-vars
     fields: ['username', 'password'],
     form: 'login',
 })
-export default class LoginContainer extends Component { // eslint-disable-line
+class LoginContainer extends Component { // eslint-disable-line
     static propTypes = {
+        dispatch: PropTypes.func.isRequired,
         fields: PropTypes.shape({
             username: PropTypes.object.isRequired,
             password: PropTypes.object.isRequired,
         }),
-        onLoginSubmit: PropTypes.func.isRequired,
     };
 
-    static defaultProps = {
-        onLoginSubmit(e) {
-            e.preventDefault();
-        },
+    handleSubmit(e) {
+        e.preventDefault();
+        const {
+            dispatch,
+            fields: {
+                username,
+                password,
+            },
+        } = this.props;
+
+        dispatch(loginUser(username.value, password.value));
     }
 
     render() {
@@ -29,11 +39,10 @@ export default class LoginContainer extends Component { // eslint-disable-line
                 username,
                 password,
             },
-            onLoginSubmit,
         } = this.props;
 
         return (
-            <form onSubmit={onLoginSubmit}>
+            <form onSubmit={::this.handleSubmit}>
                 <div>
                     <label>Username</label>
                     <input type="text" placeholder="Enter Username" {...username} />
@@ -47,3 +56,6 @@ export default class LoginContainer extends Component { // eslint-disable-line
         );
     }
 }
+
+// This may get removed if using login/signup combo modal.
+export default connect()(LoginContainer);

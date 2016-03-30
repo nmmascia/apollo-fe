@@ -4,6 +4,7 @@ import {
     compose,
     createStore,
 } from 'redux';
+import thunk from 'redux-thunk';
 
 // Logging
 import createLogger from 'redux-logger';
@@ -22,7 +23,7 @@ const configureStore = (initialState) => {
     // This is a development configuration, all dev middlewares
     // should be disabled in prod
     const composedCreateStore = compose(
-        applyMiddleware(createLogger()),
+        applyMiddleware(thunk, createLogger()),
         DevTools.instrument(),
         persistState(getDebugSessionKey())
     )(createStore);

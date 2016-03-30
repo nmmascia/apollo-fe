@@ -11,6 +11,7 @@ const log = debug('ap.Profile'); // eslint-disable-line no-unused-vars
 
 export default class Profile extends Component {
     static propTypes = {
+        isCurrentUser: PropTypes.bool.isRequired,
         name: PropTypes.string,
         onAudioRecorded: PropTypes.func.isRequired,
         onFollowUser: PropTypes.func.isRequired,
@@ -25,6 +26,7 @@ export default class Profile extends Component {
 
     render() {
         const {
+            isCurrentUser,
             name,
             onAudioRecorded,
             onFollowUser,
@@ -40,6 +42,7 @@ export default class Profile extends Component {
         return (
             <div>
                 <ProfileHeader
+                    isCurrentUser={isCurrentUser}
                     name={name}
                     onFollowUser={onFollowUser}
                     profilePicture={profilePicture}

@@ -1,31 +1,59 @@
 import { connect } from 'react-redux';
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 import AppHeader from 'components/AppHeader';
 
-import { getCurrentUser } from 'reducers/users';
+import {
+    getCurrentUser,
+    logoutUser,
+} from 'reducers/users';
 
 import './global.css';
 
-const AppContainer = ({ children, userId, username }) => (
-    <div>
-        <AppHeader
-            userId={userId}
-            username={username}
-        />
-        {children}
-    </div>
-);
+@connect((state) => ({
+    currentUser: getCurrentUser(state),
+}))
+export default class AppContainer extends Component {
+    static propTypes = {
+        children: PropTypes.any,
+        currentUser: PropTypes.shape({
+            _id: PropTypes.string,
+            username: PropTypes.string,
+        }),
+        dispatch: PropTypes.func.isRequired,
+    };
 
-AppContainer.propTypes = {
-    children: PropTypes.any,
-    userId: PropTypes.string,
-    username: PropTypes.string,
-};
+    static contextTypes = {
+        router: PropTypes.object.isRequired,
+    };
 
-const mapStateToProps = state => ({
-    userId: getCurrentUser(state)._id,
-    username: getCurrentUser(state).username,
-});
+    render() {
+        const {
+            children,
+            currentUser: {
+                _id,
+                username,
+            },
+            dispatch,
+        } = this.props;
 
-export default connect(mapStateToProps)(AppContainer);
+        const {
+            router,
+        } = this.context;
+
+        return (
+            <div>
+                <AppHeader
+                    goToLogin={() => router.push('/login')}
+                    logoutUser={() => {
+                        router.push('/');
+                        dispatch(logoutUser());
+                    }}
+                    userId={_id}
+                    username={username}
+                />
+                {children}
+            </div>
+        );
+    }
+}

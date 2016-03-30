@@ -1,5 +1,4 @@
 import Button from 'react-button';
-import classNames from 'classnames';
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 
@@ -11,6 +10,7 @@ const log = debug('ap.ProfileHeader'); // eslint-disable-line no-unused-vars
 
 export default class ProfileHeader extends Component {
     static propTypes = {
+        isCurrentUser: PropTypes.bool.isRequired,
         name: PropTypes.string,
         profilePicture: PropTypes.string.isRequired,
         onFollowUser: PropTypes.func.isRequired,
@@ -43,17 +43,26 @@ export default class ProfileHeader extends Component {
         );
     }
 
-    render() {
+    renderFollowButton() {
         const {
+            isCurrentUser,
             onFollowUser,
             username,
         } = this.props;
 
+        return !isCurrentUser ? (
+            <Button onClick={() => onFollowUser(username)}>
+                Follow
+            </Button>
+        ) : null;
+    }
+
+    render() {
         return (
             <header className={styles.container}>
                 {this.renderInfo()}
                 <div className={styles.section}>
-                    <Button onClick={() => onFollowUser(username)}>Follow</Button>
+                    {this.renderFollowButton()}
                 </div>
             </header>
         );
