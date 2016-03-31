@@ -1,13 +1,50 @@
-import AudioRecorder from 'react-audio-recorder';
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react'; // eslint-disable-line no-unsed-vars
+import { Grid, Row, Column } from 'react-cellblock';
 
-import PoemViewer from 'components/PoemViewer';
+import CurrentPoem from 'components/CurrentPoem';
 import ProfileHeader from './ProfileHeader';
-
-import styles from './Profile.css';
+import PastPerformances from 'components/PastPerformances';
 
 const log = debug('ap.Profile'); // eslint-disable-line no-unused-vars
+
+const MOCK_PERFORMANCES = [
+    {
+        _id: 1,
+        title: 'Hello',
+        author: 'mr.hallo',
+        url: '/audio.mp3',
+        dateRecorded: new Date(),
+    },
+    {
+        _id: '56f5cf830647d37a244bca66',
+        title: 'Hello',
+        author: 'mr.hallo',
+        url: '/audio.mp3',
+        dateRecorded: new Date(),
+    },
+    {
+        _id: '56f5cf810647d37a244bc325',
+        title: 'Hello',
+        author: 'mr.hallo',
+        url: '/audio.mp3',
+        dateRecorded: new Date(),
+    },
+    {
+        _id: '56f5cf810647d37a244bc325',
+        title: 'Hello',
+        author: 'mr.hallo',
+        url: '/audio.mp3',
+        dateRecorded: new Date(),
+    },
+    {
+        _id: '56f5cf810647d37a244bc325',
+        title: 'Hello',
+        author: 'mr.hallo',
+        url: '/audio.mp3',
+        dateRecorded: new Date(),
+    },
+];
 
 export default class Profile extends Component {
     static propTypes = {
@@ -40,28 +77,32 @@ export default class Profile extends Component {
         } = this.props;
 
         return (
-            <div>
-                <ProfileHeader
-                    isCurrentUser={isCurrentUser}
-                    name={name}
-                    onFollowUser={onFollowUser}
-                    profilePicture={profilePicture}
-                    username={username}
-                />
-                <section>
-                    <header>
-                        <h1>Current Poem</h1>
-                    </header>
-                    <PoemViewer
-                        author={author}
-                        lines={lines}
-                        title={title}
+            <Grid gutterWidth={10}>
+                <Row>
+                    <ProfileHeader
+                        isCurrentUser={isCurrentUser}
+                        name={name}
+                        onFollowUser={onFollowUser}
+                        profilePicture={profilePicture}
+                        username={username}
                     />
-                    <AudioRecorder
-                        onChange={data => onAudioRecorded(data)}
-                    />
-                </section>
-            </div>
+                </Row>
+                <Row>
+                    <Column width="3/5">
+                        <CurrentPoem
+                            author={author}
+                            lines={lines}
+                            onAudioRecorded={onAudioRecorded}
+                            title={title}
+                        />
+                    </Column>
+                    <Column width="2/5">
+                        <PastPerformances
+                            performances={MOCK_PERFORMANCES}
+                        />
+                    </Column>
+                </Row>
+            </Grid>
         );
     }
 }

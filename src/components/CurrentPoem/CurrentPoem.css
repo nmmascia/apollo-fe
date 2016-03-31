@@ -1,0 +1,18 @@
+.container {
+    display: inline-block;
+    width: 100%;
+}
+
+.header {
+    height: 30px;
+    background-color: #4527a0;
+    font-size: 12px;
+    text-align: right;
+    color: #fff;
+    vertical-align: middle;
+}
+
+.footer {
+    height: 30px;
+    background-color: #4527a0;
+}

@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react';
 
 import PoemHeader from './PoemHeader';
 
+import styles from './PoemViewer.css';
+
 export default class PoemViewer extends Component {
     static propTypes = {
         author: PropTypes.string.isRequired,
@@ -25,7 +27,7 @@ export default class PoemViewer extends Component {
         } = this.props;
 
         return (
-            <div>
+            <div className={styles.container}>
                 <PoemHeader
                     author={author}
                     title={title}
