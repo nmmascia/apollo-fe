@@ -88,7 +88,7 @@ export default class Profile extends Component {
                     />
                 </Row>
                 <Row>
-                    <Column width="3/5">
+                    <Column width="5/7">
                         <CurrentPoem
                             author={author}
                             lines={lines}
@@ -96,7 +96,7 @@ export default class Profile extends Component {
                             title={title}
                         />
                     </Column>
-                    <Column width="2/5">
+                    <Column width="2/7">
                         <PastPerformances
                             performances={MOCK_PERFORMANCES}
                         />

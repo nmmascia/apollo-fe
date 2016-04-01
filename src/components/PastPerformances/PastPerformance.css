@@ -1,0 +1,17 @@
+.container {
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+.title {
+    font-size: 1.4em;
+    font-weight: 400;
+}
+
+.author {
+    font-size: 1em;
+}
+
+.list {
+    margin-bottom: 5px;
+}
