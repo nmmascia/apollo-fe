@@ -1,7 +1,6 @@
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 
-import Audio from 'components/lib/Audio';
 import PastPerformance from './PastPerformance';
 
 import styles from './PastPerformances';
@@ -25,6 +24,7 @@ export default class PastPerformances extends Component {
                 author={perf.author}
                 dateRecorded={perf.dateRecorded}
                 _id={perf._id}
+                key={perf._id}
                 title={perf.title}
                 url={perf.url}
             />

@@ -10,39 +10,39 @@ const log = debug('ap.Profile'); // eslint-disable-line no-unused-vars
 
 const MOCK_PERFORMANCES = [
     {
-        _id: 1,
+        _id: '1',
         title: 'Hello',
         author: 'mr.hallo',
         url: '/audio.mp3',
-        dateRecorded: new Date(),
+        dateRecorded: new Date().toISOString(),
     },
     {
-        _id: '56f5cf830647d37a244bca66',
+        _id: '2',
         title: 'Hello',
         author: 'mr.hallo',
         url: '/audio.mp3',
-        dateRecorded: new Date(),
+        dateRecorded: new Date().toISOString(),
     },
     {
-        _id: '56f5cf810647d37a244bc325',
+        _id: '3',
         title: 'Hello',
         author: 'mr.hallo',
         url: '/audio.mp3',
-        dateRecorded: new Date(),
+        dateRecorded: new Date().toISOString(),
     },
     {
-        _id: '56f5cf810647d37a244bc325',
+        _id: '4',
         title: 'Hello',
         author: 'mr.hallo',
         url: '/audio.mp3',
-        dateRecorded: new Date(),
+        dateRecorded: new Date().toISOString(),
     },
     {
-        _id: '56f5cf810647d37a244bc325',
+        _id: '5',
         title: 'Hello',
         author: 'mr.hallo',
         url: '/audio.mp3',
-        dateRecorded: new Date(),
+        dateRecorded: new Date().toISOString(),
     },
 ];
 

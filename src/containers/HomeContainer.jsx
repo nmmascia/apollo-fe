@@ -4,7 +4,6 @@ import React, { Component, PropTypes } from 'react';
 
 const log = debug('ap.HomeContainer'); // eslint-disable-line no-unused-vars
 
-@connect
 export default class HomeContainer extends Component {
     componentWillMount() {
         log('HomeContainer will mount');
