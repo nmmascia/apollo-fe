@@ -1,0 +1,28 @@
+.container {
+    text-align: center;
+}
+
+.submit {
+    background: #e26868;
+    border-radius: 8px;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    text-align: center;
+    font-size: .925em;
+    text-transform: uppercase;
+    cursor: pointer;
+    outline: none;
+    font-weight: 700;
+    letter-spacing: .03em;
+}
+
+.submit:hover {
+    background: #fc8383;
+    transition: background 0.25s;
+}
+
+.submit:active {
+    background: #c95050;
+    transition: background 0.25s;
+}

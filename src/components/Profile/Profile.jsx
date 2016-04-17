@@ -13,7 +13,7 @@ const MOCK_PERFORMANCES = [
         _id: '1',
         title: 'Hello',
         author: 'mr.hallo',
-        url: '/audio.mp3',
+        url: 'https://s3.amazonaws.com/apollo-development/56eb719c4c9ee0096dc379f5/56f5cf810647d37a244bc325.wav',
         dateRecorded: new Date().toISOString(),
     },
     {
@@ -54,6 +54,7 @@ export default class Profile extends Component {
         onFollowUser: PropTypes.func.isRequired,
         poem: PropTypes.shape({
             author: PropTypes.string.isRequired,
+            isLoading: PropTypes.bool.isRequired,
             lines: PropTypes.arrayOf(PropTypes.string).isRequired,
             title: PropTypes.string.isRequired,
         }),
@@ -61,18 +62,35 @@ export default class Profile extends Component {
         username: PropTypes.string.isRequired,
     };
 
+    renderCurrentPoem() {
+        const {
+            onAudioRecorded,
+            poem: {
+                author,
+                isLoading,
+                lines,
+                title,
+            },
+        } = this.props;
+
+        if (isLoading) return <div>Loading...</div>;
+
+        return (
+            <CurrentPoem
+                author={author}
+                lines={lines}
+                onAudioRecorded={onAudioRecorded}
+                title={title}
+            />
+        );
+    }
+
     render() {
         const {
             isCurrentUser,
             name,
-            onAudioRecorded,
             onFollowUser,
             profilePicture,
-            poem: {
-                author,
-                lines,
-                title,
-            },
             username,
         } = this.props;
 
@@ -89,12 +107,7 @@ export default class Profile extends Component {
                 </Row>
                 <Row>
                     <Column width="5/7">
-                        <CurrentPoem
-                            author={author}
-                            lines={lines}
-                            onAudioRecorded={onAudioRecorded}
-                            title={title}
-                        />
+                        {this.renderCurrentPoem()}
                     </Column>
                     <Column width="2/7">
                         <PastPerformances

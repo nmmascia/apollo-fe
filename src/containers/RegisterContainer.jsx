@@ -3,49 +3,55 @@ import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 
-import { loginUser } from 'reducers/users';
+import RegisterForm from 'components/lib/Forms/RegisterForm';
 
-import LoginForm from 'components/lib/Forms/LoginForm';
-
-const log = debug('ap.LoginContainer'); // eslint-disable-line no-unused-vars
+const log = debug('ap.RegisterContainer'); // eslint-disable-line no-unused-vars
 
 @reduxForm({
-    form: 'login',
-    fields: ['password', 'username'],
+    form: 'register',
+    fields: ['name', 'password', 'username'],
 })
 @connect(() => ({}))
-export default class LoginContainer extends Component { // eslint-disable-line
+export default class RegisterContainer extends Component { // eslint-disable-line
     static propTypes = {
-        className: PropTypes.string,
         dispatch: PropTypes.func.isRequired,
         fields: PropTypes.object,
     };
 
     handleSubmit(e) {
         e.preventDefault();
-
         const {
             dispatch,
             fields: {
-                username,
+                name,
                 password,
+                username,
             },
         } = this.props;
 
-        log(username, password);
-        dispatch(loginUser(username.value, password.value));
+        log(name.value, password.value, username.value);
+        dispatch({
+            type: 'PLACEHOLDER_REGISTER',
+            payload: {
+                name,
+                password,
+                username,
+            },
+        });
     }
 
     render() {
         const {
             fields: {
+                name,
                 password,
                 username,
             },
         } = this.props;
 
         return (
-            <LoginForm
+            <RegisterForm
+                name={name}
                 onSubmit={::this.handleSubmit}
                 password={password}
                 username={username}
@@ -53,3 +59,6 @@ export default class LoginContainer extends Component { // eslint-disable-line
         );
     }
 }
+
+// This may get removed if using login/signup combo modal.
+// export default connect(() => ({}))(RegisterContainer);

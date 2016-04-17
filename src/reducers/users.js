@@ -1,43 +1,67 @@
-import { createSelector } from 'reselect';
 import debug from 'debug';
+import { CALL_API } from 'redux-api-middleware';
 
 const log = debug('ap.users.reducer'); // eslint-disable-line no-unused-vars
 
 //
 
+const REQUEST_USER = 'REQUEST_USER';
+const RECEIVE_USER = 'RECEIVE_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
 const SET_CURRENT_USER_ID = 'SET_CURRENT_USER_ID';
+const REQUEST_LOGIN = 'REQUEST_LOGIN';
+const LOGIN_USER = 'LOGIN_USER';
 
 //
 
 const initialState = {
     currentUserId: '56eb719c4c9ee0096dc379f5',
-    usersById: {
-        1: {
-            birthdate: new Date(),
-            _id: '1',
-            name: 'Emily D.',
-            profilePicture: require('components/Profile/images/profile-image.jpg'),
-            username: 'egurl55',
-            currentPoem: '56f5cf810647d37a244bc325',
-        },
-        '56eb719c4c9ee0096dc379f5': {
-            birthdate: new Date('Mar 26 1988'),
-            _id: '56eb719c4c9ee0096dc379f5',
-            name: 'Nicholas M.',
-            profilePicture: require('components/Profile/images/profile-image.jpg'),
-            username: 'nmmascia',
-            currentPoemId: '56f5cf830647d37a244bca66',
-        },
-    },
+    userToken: '',
+    usersById: {},
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case LOGIN_USER: {
+            const { _id, token } = action.payload;
+            return {
+                ...state,
+                currentUserId: _id,
+                token,
+            };
+        }
         case LOGOUT_USER: {
             return {
                 ...state,
                 currentUserId: null,
+            };
+        }
+        case RECEIVE_USER: {
+            const user = action.payload;
+            return {
+                ...state,
+                usersById: {
+                    ...state.usersById,
+                    [user._id]: {
+                        ...user,
+                        isLoading: false,
+                    },
+                },
+            };
+        }
+        case REQUEST_USER: {
+            const { _id } = action.payload;
+            return {
+                ...state,
+                usersById: {
+                    ...state.usersById,
+                    [_id]: {
+                        name: '',
+                        isLoading: true,
+                        profilePicture: null,
+                        username: '',
+                    },
+                },
             };
         }
         case SET_CURRENT_USER_ID: {
@@ -64,34 +88,41 @@ export const logoutUser = () => ({
     type: LOGOUT_USER,
 });
 
-export const loginUser = () => dispatch => {
-    dispatch(setCurrentUser('1'));
-};
+export const loginUser = (username, password) => ({
+    [CALL_API]: {
+        endpoint: 'http://localhost:8080/user/auth',
+        method: 'POST',
+        body: JSON.stringify({
+            username,
+            password,
+        }),
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+        },
+        types: [
+            {
+                type: REQUEST_LOGIN,
+                payload: () => ({ username, password }),
+            },
+            LOGIN_USER,
+            'FAILURE',
+        ],
+    },
+});
 
-//
-
-const getCurrentUserId = state => state.users.currentUserId;
-const getAllUsers = state => state.users.usersById;
-const getUserIdFromParams = (state, props) => props.params._id;
-
-const findUserById = (_id, allUsers) => (
-    allUsers[_id] || {}
-);
-
-export const getCurrentUser = createSelector(
-    getCurrentUserId,
-    getAllUsers,
-    findUserById,
-);
-
-export const getUserInfo = createSelector(
-    getUserIdFromParams,
-    getAllUsers,
-    findUserById,
-);
-
-export const isCurrentUser = createSelector(
-    getCurrentUserId,
-    getUserIdFromParams,
-    (currentUserId, paramsUserId) => currentUserId === paramsUserId,
-);
+export const fetchUser = _id => ({
+    [CALL_API]: {
+        endpoint: `http://localhost:8080/user/${_id}`,
+        method: 'GET',
+        types: [
+            {
+                type: REQUEST_USER,
+                payload: () => ({ _id }),
+            },
+            RECEIVE_USER,
+            'FAILURE',
+        ],
+        bailout: ({ users }) => Boolean(users.usersById[_id]),
+    },
+});

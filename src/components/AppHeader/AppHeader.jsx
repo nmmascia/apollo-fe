@@ -15,6 +15,20 @@ export default class AppHeader extends Component {
         username: PropTypes.string,
     }
 
+    renderProfileLink() {
+        const { userId } = this.props;
+        if (!userId) return null;
+
+        return (
+            <Link
+                className={styles.anchorTag}
+                to={`/profile/${userId}`}
+            >
+                Profile
+            </Link>
+        );
+    }
+
     render() {
         const {
             goToLogin,
@@ -28,7 +42,8 @@ export default class AppHeader extends Component {
                 <ul className={styles.links}>
                     <li className={styles.logo}>-- apollo --</li>
                     <li>
-                        <Link className={styles.anchorTag} to={`/profile/${userId}`}>Profile</Link>
+                        {this.renderProfileLink()}
+                        <Link className={styles.anchorTag} to="/feed">Feed</Link>
                     </li>
                 </ul>
 

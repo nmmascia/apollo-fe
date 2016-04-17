@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    font-size: 16px;
+    padding: 2px 0;
+}
+
+.container > label {
+    flex: 1;
+    font-size: .9em;
+    align-self: center;
+    padding: 2px;
+    margin-right: 5px;
+    color: #4a3f60;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    min-width: 80px;
+}
+
+.container > input {
+    flex: 4;
+    padding: 5px;
+}

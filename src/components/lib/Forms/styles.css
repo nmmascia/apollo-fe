@@ -1,0 +1,11 @@
+.container {
+    padding: 0 5px;
+    font-size: 16px;
+}
+
+.container > h1 {
+    text-align: center;
+    color: #e26868;
+    font-size: 1.25em;
+    padding: 5px 0;
+}

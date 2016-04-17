@@ -5,22 +5,13 @@ import React from 'react';
 import { render } from 'react-dom';
 
 // React Router
-import {
-    browserHistory,
-    IndexRoute,
-    Router,
-    Route,
-} from 'react-router';
+import { browserHistory, Router } from 'react-router';
+import Routes from 'routes';
 
 // Redux
 import { Provider } from 'react-redux';
 import DevTools from 'utils/DevTools';
 import configureStore from 'utils/configureStore';
-
-import AppContainer from 'containers/AppContainer';
-import HomeContainer from 'containers/HomeContainer';
-import LoginContainer from 'containers/LoginContainer';
-import ProfileContainer from 'containers/ProfileContainer';
 
 // disable if prod
 debug.enable('ap.*');
@@ -31,11 +22,7 @@ const Root = () => (
     <Provider store={store}>
         <div>
             <Router history={browserHistory}>
-                <Route path="/" component={AppContainer}>
-                    <IndexRoute component={HomeContainer} />
-                    <Route path="/login" component={LoginContainer} />
-                    <Route path="/profile/:_id" component={ProfileContainer} />
-                </Route>
+                {Routes}
             </Router>
             <DevTools store={store} />
         </div>

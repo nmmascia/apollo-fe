@@ -2,34 +2,58 @@ import { connect } from 'react-redux';
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 
-import Profile from 'components/Profile';
-
 import {
     getUserInfo,
     isCurrentUser as isCurrentProfileUser,
+} from 'selectors/user';
+
+import {
+    getProfilePoem,
+} from 'selectors/poem';
+
+import {
+    fetchPoem,
+} from 'reducers/poems';
+
+import {
+    fetchUser,
 } from 'reducers/users';
+
+import Profile from 'components/Profile';
 
 const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
 
 @connect((state, props) => ({
     isCurrentUser: isCurrentProfileUser(state, props),
-    poem: state.poems.poemsById['56f5cf830647d37a244bca66'],
+    poem: getProfilePoem(state, props),
     user: getUserInfo(state, props),
+    userId: props.routeParams._id,
 }))
 export default class ProfileContainer extends Component {
     static propTypes = {
+        dispatch: PropTypes.func.isRequired,
         isCurrentUser: PropTypes.bool.isRequired,
         poem: PropTypes.shape({
             author: PropTypes.string.isRequired,
             lines: PropTypes.arrayOf(PropTypes.string).isRequired,
             title: PropTypes.string.isRequired,
+            isLoading: PropTypes.bool.isRequired,
+        }),
+        routeParams: PropTypes.shape({
+            _id: PropTypes.string,
         }),
         user: PropTypes.shape({
             name: PropTypes.string,
             profilePicture: PropTypes.string,
-            username: PropTypes.string,
+            username: PropTypes.string.isRequired,
         }).isRequired,
     };
+
+    componentWillMount() {
+        const { dispatch, userId } = this.props;
+        dispatch(fetchUser(userId));
+        dispatch(fetchPoem('56f5cf810647d37a244bbeb2'));
+    }
 
     render() {
         const {

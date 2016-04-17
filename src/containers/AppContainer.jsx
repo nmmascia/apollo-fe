@@ -4,9 +4,12 @@ import React, { Component, PropTypes } from 'react';
 import AppHeader from 'components/AppHeader';
 
 import {
-    getCurrentUser,
     logoutUser,
 } from 'reducers/users';
+
+import {
+    getCurrentUser,
+} from 'selectors/user';
 
 import './global.css';
 

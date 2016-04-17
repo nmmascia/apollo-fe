@@ -2,9 +2,10 @@ const path = require('path');
 const webpack = require('webpack');
 
 const __dir = path.resolve('.');
+const src = path.join(__dir, 'src');
 
 module.exports = {
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'source-map',
     entry: [
         'eventsource-polyfill',
         'webpack-hot-middleware/client',
@@ -24,7 +25,7 @@ module.exports = {
             {
                 test: /\.jsx?$/,
                 loader: 'babel',
-                include: path.join(__dir, 'src'),
+                include: src,
             },
             {
                 test: /\.css$/,
@@ -33,7 +34,7 @@ module.exports = {
             {
                 test: /\.(jpg|png|mp3|wav|ogg)$/,
                 loader: 'file-loader',
-                include: path.join(__dir, 'src'),
+                include: src,
             },
         ],
         postcss: () => {
@@ -46,7 +47,7 @@ module.exports = {
     resolve: {
         extensions: ['', '.js', '.jsx'],
         modulesDirectories: ['node_modules'],
-        root: path.join(__dir, 'src'),
+        root: src,
     },
 };
 

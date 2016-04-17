@@ -15,7 +15,7 @@ export default class PoemViewer extends Component {
         const { lines } = this.props;
         return (
             <ul>
-                {lines.map(line => <li key={line}>{line}</li>)}
+                {lines.map((line, index) => <li key={index}>{line}</li>)}
             </ul>
         );
     }
