@@ -3,7 +3,9 @@ import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 
-import { loginUser } from 'reducers/users';
+import {
+    loginUserAndNavigateToProfile,
+} from 'reducers/users';
 
 import LoginForm from 'components/lib/Forms/LoginForm';
 
@@ -13,7 +15,6 @@ const log = debug('ap.LoginContainer'); // eslint-disable-line no-unused-vars
     form: 'login',
     fields: ['password', 'username'],
 })
-@connect(() => ({}))
 export default class LoginContainer extends Component { // eslint-disable-line
     static propTypes = {
         className: PropTypes.string,
@@ -32,8 +33,7 @@ export default class LoginContainer extends Component { // eslint-disable-line
             },
         } = this.props;
 
-        log(username, password);
-        dispatch(loginUser(username.value, password.value));
+        dispatch(loginUserAndNavigateToProfile(username.value, password.value));
     }
 
     render() {

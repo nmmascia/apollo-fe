@@ -1,5 +1,6 @@
 import debug from 'debug';
 import { CALL_API } from 'redux-api-middleware';
+import { browserHistory } from 'react-router';
 
 const log = debug('ap.users.reducer'); // eslint-disable-line no-unused-vars
 
@@ -8,14 +9,13 @@ const log = debug('ap.users.reducer'); // eslint-disable-line no-unused-vars
 const REQUEST_USER = 'REQUEST_USER';
 const RECEIVE_USER = 'RECEIVE_USER';
 const LOGOUT_USER = 'LOGOUT_USER';
-const SET_CURRENT_USER_ID = 'SET_CURRENT_USER_ID';
 const REQUEST_LOGIN = 'REQUEST_LOGIN';
 const LOGIN_USER = 'LOGIN_USER';
 
 //
 
 const initialState = {
-    currentUserId: '56eb719c4c9ee0096dc379f5',
+    currentUserId: '',
     userToken: '',
     usersById: {},
 };
@@ -64,13 +64,6 @@ export default (state = initialState, action) => {
                 },
             };
         }
-        case SET_CURRENT_USER_ID: {
-            const { currentUserId } = action;
-            return {
-                ...state,
-                currentUserId,
-            };
-        }
         default: {
             return state;
         }
@@ -78,11 +71,6 @@ export default (state = initialState, action) => {
 };
 
 //
-
-const setCurrentUser = currentUserId => ({
-    currentUserId,
-    type: SET_CURRENT_USER_ID,
-});
 
 export const logoutUser = () => ({
     type: LOGOUT_USER,
@@ -110,6 +98,11 @@ export const loginUser = (username, password) => ({
         ],
     },
 });
+
+export const loginUserAndNavigateToProfile = (username, password) => dispatch => {
+    return dispatch(loginUser(username, password))
+    .then(response => browserHistory.push(`/profile/${response.payload.user._id}`));
+};
 
 export const fetchUser = _id => ({
     [CALL_API]: {

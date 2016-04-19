@@ -3,6 +3,7 @@ import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 
 import {
+    getUserIdFromParams,
     getUserInfo,
     isCurrentUser as isCurrentProfileUser,
 } from 'selectors/user';
@@ -27,7 +28,7 @@ const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
     isCurrentUser: isCurrentProfileUser(state, props),
     poem: getProfilePoem(state, props),
     user: getUserInfo(state, props),
-    userId: props.routeParams._id,
+    userId: getUserIdFromParams(state, props),
 }))
 export default class ProfileContainer extends Component {
     static propTypes = {
@@ -39,14 +40,12 @@ export default class ProfileContainer extends Component {
             title: PropTypes.string.isRequired,
             isLoading: PropTypes.bool.isRequired,
         }),
-        routeParams: PropTypes.shape({
-            _id: PropTypes.string,
-        }),
         user: PropTypes.shape({
             name: PropTypes.string,
             profilePicture: PropTypes.string,
             username: PropTypes.string.isRequired,
         }).isRequired,
+        userId: PropTypes.string.isRequired,
     };
 
     componentWillMount() {

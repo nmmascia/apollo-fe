@@ -12,7 +12,7 @@ export default class ProfileHeader extends Component {
     static propTypes = {
         isCurrentUser: PropTypes.bool.isRequired,
         name: PropTypes.string,
-        profilePicture: PropTypes.string.isRequired,
+        profilePicture: PropTypes.string,
         onFollowUser: PropTypes.func.isRequired,
         username: PropTypes.string.isRequired,
     };

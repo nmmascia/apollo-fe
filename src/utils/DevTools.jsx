@@ -11,7 +11,7 @@ const DevTools = createDevTools(
         changePositionKey="ctrl-q"
         defaultIsVisible={false}
     >
-        <FilterMonitor blacklist={['redux-form']}>
+        <FilterMonitor>
             <LogMonitor theme="tomorrow" />
         </FilterMonitor>
     </DockMonitor>

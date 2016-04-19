@@ -58,7 +58,7 @@ export default class Profile extends Component {
             lines: PropTypes.arrayOf(PropTypes.string).isRequired,
             title: PropTypes.string.isRequired,
         }),
-        profilePicture: PropTypes.string.isRequired,
+        profilePicture: PropTypes.string,
         username: PropTypes.string.isRequired,
     };
 
