@@ -21,4 +21,8 @@ Thumbnail.propTypes = {
     width: PropTypes.number.isRequired,
 };
 
+Thumbnail.defaultProps = {
+    url: require('./images/default-profile.jpg'),
+};
+
 export default Thumbnail;
