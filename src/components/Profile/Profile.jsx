@@ -8,50 +8,13 @@ import PastPerformances from 'components/PastPerformances';
 
 const log = debug('ap.Profile'); // eslint-disable-line no-unused-vars
 
-const MOCK_PERFORMANCES = [
-    {
-        _id: '1',
-        title: 'Hello',
-        author: 'mr.hallo',
-        url: 'https://s3.amazonaws.com/apollo-development/56eb719c4c9ee0096dc379f5/56f5cf810647d37a244bc325.wav',
-        dateRecorded: new Date().toISOString(),
-    },
-    {
-        _id: '2',
-        title: 'Hello',
-        author: 'mr.hallo',
-        url: '/audio.mp3',
-        dateRecorded: new Date().toISOString(),
-    },
-    {
-        _id: '3',
-        title: 'Hello',
-        author: 'mr.hallo',
-        url: '/audio.mp3',
-        dateRecorded: new Date().toISOString(),
-    },
-    {
-        _id: '4',
-        title: 'Hello',
-        author: 'mr.hallo',
-        url: '/audio.mp3',
-        dateRecorded: new Date().toISOString(),
-    },
-    {
-        _id: '5',
-        title: 'Hello',
-        author: 'mr.hallo',
-        url: '/audio.mp3',
-        dateRecorded: new Date().toISOString(),
-    },
-];
-
 export default class Profile extends Component {
     static propTypes = {
         isCurrentUser: PropTypes.bool.isRequired,
         name: PropTypes.string,
         onAudioRecorded: PropTypes.func.isRequired,
         onFollowUser: PropTypes.func.isRequired,
+        pastPerformances: PropTypes.array,
         poem: PropTypes.shape({
             author: PropTypes.string.isRequired,
             isLoading: PropTypes.bool.isRequired,
@@ -90,6 +53,7 @@ export default class Profile extends Component {
             isCurrentUser,
             name,
             onFollowUser,
+            pastPerformances,
             profilePicture,
             username,
         } = this.props;
@@ -111,7 +75,7 @@ export default class Profile extends Component {
                     </Column>
                     <Column width="2/7">
                         <PastPerformances
-                            performances={MOCK_PERFORMANCES}
+                            performances={pastPerformances}
                         />
                     </Column>
                 </Row>
