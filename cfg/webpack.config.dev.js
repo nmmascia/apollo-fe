@@ -5,7 +5,7 @@ const __dir = path.resolve('.');
 const src = path.join(__dir, 'src');
 
 module.exports = {
-    devtool: 'source-map',
+    devtool: 'cheap-eval-source-map',
     entry: [
         'eventsource-polyfill',
         'webpack-hot-middleware/client',

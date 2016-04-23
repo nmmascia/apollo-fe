@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-const getCurrentUserId = state => state.users.currentUserId;
+export const getCurrentUserId = state => state.users.currentUserId;
 const getAllUsers = state => state.users.usersById;
 export const getUserIdFromParams = (state, props) => props.params._id;
 const findUserById = (_id, allUsers) => {
