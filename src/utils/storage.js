@@ -1,5 +1,3 @@
-import { mergePersistedState } from 'redux-localstorage';
-
 const noop = () => ({});
 
 export const userStorage = storage => {

@@ -1,4 +1,3 @@
-import { connect } from 'react-redux';
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';

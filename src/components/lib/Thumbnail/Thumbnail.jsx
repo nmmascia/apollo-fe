@@ -1,5 +1,7 @@
 import React, { PropTypes } from 'react';
 
+const defaultUrl = require('./images/default-profile.jpg');
+
 const Thumbnail = ({ className, height, url, width }) => (
     <div
         className={className}
@@ -22,7 +24,7 @@ Thumbnail.propTypes = {
 };
 
 Thumbnail.defaultProps = {
-    url: require('./images/default-profile.jpg'),
+    url: defaultUrl,
 };
 
 export default Thumbnail;
