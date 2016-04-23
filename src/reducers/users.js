@@ -23,17 +23,28 @@ const initialState = {
 export default (state = initialState, action) => {
     switch (action.type) {
         case LOGIN_USER: {
-            const { _id, token } = action.payload;
+            const { user, code } = action.payload;
             return {
                 ...state,
-                currentUserId: _id,
-                token,
+                currentUserId: user._id,
+                userToken: code,
+                usersById: {
+                    [user._id]: {
+                        ...user,
+                    },
+                },
             };
         }
         case LOGOUT_USER: {
             return {
                 ...state,
-                currentUserId: null,
+                currentUserId: '',
+                userToken: '',
+                usersById: {
+                    [state.currentUserId]: {
+
+                    },
+                },
             };
         }
         case RECEIVE_USER: {
