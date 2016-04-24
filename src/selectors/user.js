@@ -2,9 +2,9 @@ import { createSelector } from 'reselect';
 
 export const getCurrentUserId = state => state.users.currentUserId;
 const getAllUsers = state => state.users.usersById;
-export const getUserIdFromParams = (state, props) => props.params._id;
-const findUserById = (_id, allUsers) => {
-    if (!allUsers[_id]) {
+export const getUserIdFromParams = (state, props) => props.params.id;
+const findUserById = (id, allUsers) => {
+    if (!allUsers[id]) {
         return {
             name: '',
             isLoading: true,
@@ -13,7 +13,7 @@ const findUserById = (_id, allUsers) => {
         };
     }
 
-    return allUsers[_id];
+    return allUsers[id];
 };
 
 export const getCurrentUser = createSelector(

@@ -13,7 +13,7 @@ const Routes = (
     <Route path="/" component={AppContainer}>
         <IndexRoute component={LandingPage} />
         <Route path="/feed" component={FeedContainer} />
-        <Route path="/profile/:_id" component={ProfileContainer} />
+        <Route path="/profile/:id" component={ProfileContainer} />
     </Route>
 );
 

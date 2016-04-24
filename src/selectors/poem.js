@@ -12,7 +12,7 @@ export const getProfilePoem = createSelector(
         if (!currentUser.currentPoemId) {
             return {
                 author: '',
-                _id: '',
+                id: '',
                 isLoading: true,
                 lines: [],
                 title: '',

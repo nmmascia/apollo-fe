@@ -26,10 +26,10 @@ export default (state = initialState, action) => {
             const { user, code } = action.payload;
             return {
                 ...state,
-                currentUserId: user._id,
+                currentUserId: user.id,
                 userToken: code,
                 usersById: {
-                    [user._id]: {
+                    [user.id]: {
                         ...user,
                     },
                 },
@@ -53,7 +53,7 @@ export default (state = initialState, action) => {
                 ...state,
                 usersById: {
                     ...state.usersById,
-                    [user._id]: {
+                    [user.id]: {
                         ...user,
                         isLoading: false,
                     },
@@ -61,12 +61,12 @@ export default (state = initialState, action) => {
             };
         }
         case REQUEST_USER: {
-            const { _id } = action.payload;
+            const { id } = action.payload;
             return {
                 ...state,
                 usersById: {
                     ...state.usersById,
-                    [_id]: {
+                    [id]: {
                         name: '',
                         isLoading: true,
                         profilePicture: null,
@@ -112,21 +112,21 @@ export const loginUser = (username, password) => ({
 
 export const loginUserAndNavigateToProfile = (username, password) => dispatch => {
     return dispatch(loginUser(username, password))
-    .then(response => browserHistory.push(`/profile/${response.payload.user._id}`));
+    .then(response => browserHistory.push(`/profile/${response.payload.user.id}`));
 };
 
-export const fetchUser = _id => ({
+export const fetchUser = id => ({
     [CALL_API]: {
-        endpoint: `http://localhost:8080/user/${_id}`,
+        endpoint: `http://localhost:8080/user/${id}`,
         method: 'GET',
         types: [
             {
                 type: REQUEST_USER,
-                payload: () => ({ _id }),
+                payload: () => ({ id }),
             },
             RECEIVE_USER,
             'FAILURE',
         ],
-        bailout: ({ users }) => Boolean(users.usersById[_id]),
+        bailout: ({ users }) => Boolean(users.usersById[id]),
     },
 });

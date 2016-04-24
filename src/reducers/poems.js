@@ -22,7 +22,7 @@ export default (state = initialState, action) => {
                 ...state,
                 poemsById: {
                     ...state.poemsById,
-                    [poem._id]: {
+                    [poem.id]: {
                         ...poem,
                         isLoading: false,
                     },
@@ -30,14 +30,14 @@ export default (state = initialState, action) => {
             };
         }
         case REQUEST_POEM: {
-            const { _id } = action.payload;
+            const { id } = action.payload;
             return {
                 ...state,
                 poemsById: {
                     ...state.poemsById,
-                    [_id]: {
+                    [id]: {
                         author: '',
-                        _id,
+                        id,
                         isLoading: true,
                         lines: [],
                         title: '',
@@ -53,20 +53,20 @@ export default (state = initialState, action) => {
 
 //
 
-export const fetchPoem = _id => ({
+export const fetchPoem = id => ({
     [CALL_API]: {
-        endpoint: `http://localhost:8080/poem/${_id}`,
+        endpoint: `http://localhost:8080/poem/${id}`,
         method: 'GET',
         types: [
             {
                 type: REQUEST_POEM,
-                payload: () => ({ _id }),
+                payload: () => ({ id }),
             },
             RECEIVE_POEM,
             'FAILURE',
         ],
         bailout: ({ poems }) => {
-            const bailout = Boolean(poems.poemsById[_id]);
+            const bailout = Boolean(poems.poemsById[id]);
             log(bailout);
             return bailout;
         },

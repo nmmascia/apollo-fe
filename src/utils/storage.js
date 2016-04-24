@@ -9,7 +9,7 @@ export const userStorage = storage => {
                     currentUserId,
                     usersById,
                     userToken,
-                }
+                },
             } = state;
 
             if (usersById[currentUserId]) {
@@ -25,10 +25,10 @@ export const userStorage = storage => {
 export const mergeUser = (initial, persisted) => ({
     ...initial,
     users: {
-        currentUserId: persisted.userInfo._id,
+        currentUserId: persisted.userInfo.id,
         userToken: persisted.userToken,
         usersById: {
-            [persisted.userInfo._id]: {
+            [persisted.userInfo.id]: {
                 ...persisted.userInfo,
             },
         },

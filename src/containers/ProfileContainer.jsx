@@ -32,31 +32,31 @@ let MOCK_URL = null;
 
 const MOCK_PERFORMANCES = [
     {
-        _id: '1',
+        id: '1',
         title: 'Hello',
         author: 'mr.hallo',
         dateRecorded: new Date().toISOString(),
     },
     {
-        _id: '2',
+        id: '2',
         title: 'Hello',
         author: 'mr.hallo',
         dateRecorded: new Date().toISOString(),
     },
     {
-        _id: '3',
+        id: '3',
         title: 'Hello',
         author: 'mr.hallo',
         dateRecorded: new Date().toISOString(),
     },
     {
-        _id: '4',
+        id: '4',
         title: 'Hello',
         author: 'mr.hallo',
         dateRecorded: new Date().toISOString(),
     },
     {
-        _id: '5',
+        id: '5',
         title: 'Hello',
         author: 'mr.hallo',
         dateRecorded: new Date().toISOString(),
@@ -75,12 +75,14 @@ export default class ProfileContainer extends Component {
         dispatch: PropTypes.func.isRequired,
         isCurrentUser: PropTypes.bool.isRequired,
         poem: PropTypes.shape({
-            author: PropTypes.string.isRequired,
-            lines: PropTypes.arrayOf(PropTypes.string).isRequired,
-            title: PropTypes.string.isRequired,
-            isLoading: PropTypes.bool.isRequired,
+            author: PropTypes.string,
+            isLoading: PropTypes.bool,
+            id: PropTypes.string,
+            lines: PropTypes.arrayOf(PropTypes.string),
+            title: PropTypes.string,
         }),
         user: PropTypes.shape({
+            id: PropTypes.string,
             name: PropTypes.string,
             profilePicture: PropTypes.string,
             username: PropTypes.string.isRequired,

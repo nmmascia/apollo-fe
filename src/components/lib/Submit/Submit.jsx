@@ -14,6 +14,7 @@ const Submit = ({ className, label }) => (
 
 Submit.propTypes = {
     className: PropTypes.string,
+    label: PropTypes.string,
     value: PropTypes.string,
 };
 

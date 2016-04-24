@@ -20,7 +20,7 @@ export default class AppContainer extends Component {
     static propTypes = {
         children: PropTypes.any,
         currentUser: PropTypes.shape({
-            _id: PropTypes.string,
+            id: PropTypes.string,
             username: PropTypes.string,
         }),
         dispatch: PropTypes.func.isRequired,
@@ -34,7 +34,7 @@ export default class AppContainer extends Component {
         const {
             children,
             currentUser: {
-                _id,
+                id,
                 username,
             },
             dispatch,
@@ -52,7 +52,7 @@ export default class AppContainer extends Component {
                         router.push('/');
                         dispatch(logoutUser());
                     }}
-                    userId={_id}
+                    userId={id}
                     username={username}
                 />
                 {children}

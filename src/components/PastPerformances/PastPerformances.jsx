@@ -12,7 +12,7 @@ export default class PastPerformances extends Component {
         performances: PropTypes.arrayOf(PropTypes.shape({
             author: PropTypes.string.isRequired,
             dateRecorded: PropTypes.string.isRequired,
-            _id: PropTypes.string.isRequired,
+            id: PropTypes.string.isRequired,
             title: PropTypes.string.isRequired,
             url: PropTypes.string.isRequired,
         })),
@@ -23,8 +23,8 @@ export default class PastPerformances extends Component {
             <PastPerformance
                 author={perf.author}
                 dateRecorded={perf.dateRecorded}
-                _id={perf._id}
-                key={perf._id}
+                id={perf.id}
+                key={perf.id}
                 title={perf.title}
                 url={perf.url}
             />
