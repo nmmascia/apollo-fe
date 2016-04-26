@@ -24,6 +24,10 @@ import {
     getAudioUrl,
 } from 'utils/aws-s3-service';
 
+import {
+    requestMedia,
+} from 'reducers/recorder';
+
 import Profile from 'components/Profile';
 
 const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
@@ -98,6 +102,8 @@ export default class ProfileContainer extends Component {
         .then(response => {
             MOCK_URL = response;
         });
+
+        dispatch(requestMedia());
     }
 
     render() {

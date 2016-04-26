@@ -4,6 +4,7 @@ import { reducer as modal } from 'redux-modal';
 
 import performances from './performances';
 import poems from './poems';
+import recorder from './recorder';
 import users from './users';
 
 const rootReducer = combineReducers({
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
     modal,
     performances,
     poems,
+    recorder,
     users,
 });
 
