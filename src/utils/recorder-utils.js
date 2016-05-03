@@ -35,9 +35,8 @@ export const stop = () => {
     mediaRecorder.stop();
 };
 
-const getAudioBlob = () => {
+export const getAudioBlob = () => {
     const blob = new Blob(chunks, mimeType);
-    log('Audio blob:', blob);
     return blob;
 };
 

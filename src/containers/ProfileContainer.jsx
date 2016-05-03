@@ -84,7 +84,7 @@ export default class ProfileContainer extends Component {
             id: PropTypes.string,
             lines: PropTypes.arrayOf(PropTypes.string),
             title: PropTypes.string,
-        }),
+        }).isRequired,
         user: PropTypes.shape({
             id: PropTypes.string,
             name: PropTypes.string,
@@ -98,7 +98,7 @@ export default class ProfileContainer extends Component {
         const { dispatch, userId } = this.props;
         dispatch(fetchUser(userId));
         dispatch(fetchPoem('56f5cf810647d37a244bbeb2'));
-        getAudioUrl('56eb719c4c9ee0096dc379f5/56f5cf810647d37a244bc325.wav')
+        getAudioUrl('56eb719c4c9ee0096dc379f5/56f5cf810647d37a244bbeb2.wav')
         .then(response => {
             MOCK_URL = response;
         });
@@ -121,7 +121,6 @@ export default class ProfileContainer extends Component {
             <Profile
                 isCurrentUser={isCurrentUser}
                 name={name}
-                onAudioRecorded={data => log(data)}
                 onFollowUser={user => log(user)}
                 pastPerformances={MOCK_PERFORMANCES.map(perf => {
                     const withAudio = perf;

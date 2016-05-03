@@ -9,7 +9,7 @@ export const getProfilePoem = createSelector(
     getUserInfo,
     state => state.poems.poemsById,
     (currentUser, poems) => {
-        if (!currentUser.currentPoemId) {
+        if (!poems[currentUser.currentPoemId]) {
             return {
                 author: '',
                 id: '',

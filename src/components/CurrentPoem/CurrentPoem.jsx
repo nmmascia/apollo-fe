@@ -9,7 +9,7 @@ import styles from './CurrentPoem.css';
 
 const log = debug('ap.CurrentPoem'); // eslint-disable-line no-unused-vars
 
-const CurrentPoem = ({ author, lines, onAudioRecorded, title }) => {
+const CurrentPoem = ({ author, lines, title }) => {
     return (
         <section className={styles.container}>
             <header className={styles.header}>
@@ -20,9 +20,6 @@ const CurrentPoem = ({ author, lines, onAudioRecorded, title }) => {
                 lines={lines}
                 title={title}
             />
-            <footer className={styles.footer}>
-                <AudioRecorderContainer />
-            </footer>
         </section>
     );
 };
@@ -30,7 +27,6 @@ const CurrentPoem = ({ author, lines, onAudioRecorded, title }) => {
 CurrentPoem.propTypes = {
     author: PropTypes.string.isRequired,
     lines: PropTypes.arrayOf(PropTypes.string).isRequired,
-    onAudioRecorded: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
 };
 

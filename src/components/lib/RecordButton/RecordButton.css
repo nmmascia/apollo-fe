@@ -1,0 +1,19 @@
+.recordButton {
+    height: 80px;
+    width: 80px;
+    background-color: #ff0909;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.5s;
+    transition: border-radius 0.5s;
+}
+
+.recordButton:active {
+    background-color: #db0000;
+    border-radius: none;
+}
+
+.isRecording {
+    background-color: gray;
+    border-radius: 0;
+}

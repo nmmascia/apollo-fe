@@ -5,11 +5,11 @@
 
 .header {
     height: 30px;
-    background-color: #4527a0;
-    font-size: 12px;
-    text-align: right;
+    background-color: #4a3f60;
+    font-size: 16px;
     color: #fff;
     vertical-align: middle;
+    padding-left: 5px;
 }
 
 .footer {

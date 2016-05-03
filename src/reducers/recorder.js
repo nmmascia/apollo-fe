@@ -1,11 +1,13 @@
 import debug from 'debug';
-import getUserMedia from 'getusermedia';
+import shortid from 'shortid';
+import { CALL_API } from 'redux-api-middleware';
 
 import {
     createRecorder,
+    getAudioBlob,
+    getAudioUrl,
     start,
     stop,
-    getAudioUrl,
 } from 'utils/recorder-utils';
 
 const log = debug('ap.audio recorder'); // eslint-disable-line no-unused-vars
@@ -19,11 +21,14 @@ const GET_USER_MEDIA_SUCCESS = 'GET_USER_MEDIA_SUCCESS';
 const START_RECORDING = 'START_RECORDING';
 const STOP_RECORDING = 'STOP_RECORDING';
 
+export const DELETE_RECORDING = 'DELETE_RECORDING';
+
 //
 
 const initialState = {
+    isConnected: false,
     isRecording: false,
-    recordings: [],
+    recordingsById: {},
 };
 
 export default (state = initialState, action) => {
@@ -35,13 +40,33 @@ export default (state = initialState, action) => {
             };
         }
         case STOP_RECORDING: {
+            const recording = action.payload;
+
             return {
                 ...state,
                 isRecording: false,
-                recordings: [
-                    ...state.recordings,
-                    action.recording,
-                ],
+                recordingsById: {
+                    ...state.recordingsById,
+                    [recording.id]: recording,
+                },
+            };
+        }
+        case DELETE_RECORDING: {
+            const { id } = action.payload;
+            const { recordingsById } = state;
+            delete recordingsById[id];
+
+            return {
+                ...state,
+                recordingsById: {
+                    ...recordingsById,
+                },
+            };
+        }
+        case GET_USER_MEDIA_SUCCESS: {
+            return {
+                ...state,
+                isConnected: true,
             };
         }
         default: {
@@ -52,8 +77,11 @@ export default (state = initialState, action) => {
 
 //
 
-export const requestMedia = () => dispatch => {
+export const requestMedia = () => (dispatch, getState) => {
     dispatch({ type: GET_USER_MEDIA });
+
+    const { isConnected } = getState().recorder;
+    if (isConnected) return;
 
     createRecorder()
     .then(() => dispatch({ type: GET_USER_MEDIA_SUCCESS }))
@@ -67,6 +95,30 @@ export const startRecording = () => {
 
 export const stopRecording = () => {
     stop();
-    const url = getAudioUrl();
-    return { type: STOP_RECORDING, recording: url };
+
+    const blob = getAudioBlob();
+    const src = getAudioUrl();
+    const id = shortid();
+    const dateRecorded = new Date();
+
+    log('Blob!', blob);
+
+    return {
+        type: STOP_RECORDING,
+        payload: {
+            id,
+            blob: blob,
+            dateRecorded,
+            src,
+        },
+    };
+};
+
+export const deleteRecording = id => {
+    return {
+        type: DELETE_RECORDING,
+        payload: {
+            id,
+        },
+    };
 };

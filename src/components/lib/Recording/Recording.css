@@ -1,0 +1,11 @@
+.controlPanel {
+    border-top: 2px solid black;
+    padding: 2px;
+}
+
+.controlButton {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    cursor: pointer;
+}
