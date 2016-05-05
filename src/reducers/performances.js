@@ -5,12 +5,27 @@ const log = debug('ap.performances reducer'); // eslint-disable-line no-unused-v
 
 //
 
+const RECEIVE_PAST_PERFORMANCES = 'RECEIVE_PAST_PERFORMANCES';
+
 //
 
-const initialState = {};
+const initialState = {
+    performancesByUserId: {},
+};
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case RECEIVE_PAST_PERFORMANCES: {
+            const { payload } = action;
+            return {
+                ...state,
+                performancesByUserId: {
+                    [payload.userId]: [
+                        ...payload.performances,
+                    ],
+                },
+            };
+        }
         default: {
             return state;
         }
@@ -43,3 +58,15 @@ export const createPerformance = id => (dispatch, getState) => {
         },
     });
 };
+
+export const fetchPastPerformances = userId => ({
+    [CALL_API]: {
+        endpoint: `//localhost:8080/performance?userId=${userId}`,
+        method: 'GET',
+        types: [
+            'REQUEST_PAST_PERFORMANCES',
+            RECEIVE_PAST_PERFORMANCES,
+            'FAILURE_PAST_PERFORMANCES',
+        ],
+    },
+});

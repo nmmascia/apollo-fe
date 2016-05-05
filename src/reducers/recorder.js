@@ -14,7 +14,7 @@ const log = debug('ap.audio recorder'); // eslint-disable-line no-unused-vars
 
 //
 
-const GET_USER_MEDIA = 'GET_USER_MEDIA';
+const GET_USER_MEDIA_REQUEST = 'GET_USER_MEDIA_REQUEST';
 const GET_USER_MEDIA_ERROR = 'GET_USER_MEDIA_ERROR';
 const GET_USER_MEDIA_SUCCESS = 'GET_USER_MEDIA_SUCCESS';
 
@@ -28,6 +28,7 @@ export const DELETE_RECORDING = 'DELETE_RECORDING';
 const initialState = {
     isConnected: false,
     isRecording: false,
+    isRequested: false,
     recordingsById: {},
 };
 
@@ -63,10 +64,17 @@ export default (state = initialState, action) => {
                 },
             };
         }
+        case GET_USER_MEDIA_REQUEST: {
+            return {
+                ...state,
+                isRequested: true,
+            };
+        }
         case GET_USER_MEDIA_SUCCESS: {
             return {
                 ...state,
                 isConnected: true,
+                isRequested: false,
             };
         }
         default: {
@@ -78,10 +86,10 @@ export default (state = initialState, action) => {
 //
 
 export const requestMedia = () => (dispatch, getState) => {
-    dispatch({ type: GET_USER_MEDIA });
+    const { isConnected, isRequested } = getState().recorder;
+    if (isConnected || isRequested) return;
 
-    const { isConnected } = getState().recorder;
-    if (isConnected) return;
+    dispatch({ type: GET_USER_MEDIA_REQUEST });
 
     createRecorder()
     .then(() => dispatch({ type: GET_USER_MEDIA_SUCCESS }))
@@ -107,7 +115,7 @@ export const stopRecording = () => {
         type: STOP_RECORDING,
         payload: {
             id,
-            blob: blob,
+            blob,
             dateRecorded,
             src,
         },

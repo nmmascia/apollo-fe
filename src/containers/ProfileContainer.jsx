@@ -28,6 +28,8 @@ import {
     requestMedia,
 } from 'reducers/recorder';
 
+import { getUserProfile } from 'reducers/actions';
+
 import Profile from 'components/Profile';
 
 const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
@@ -96,12 +98,15 @@ export default class ProfileContainer extends Component {
 
     componentWillMount() {
         const { dispatch, userId } = this.props;
-        dispatch(fetchUser(userId));
-        dispatch(fetchPoem('56f5cf810647d37a244bbeb2'));
-        getAudioUrl('56eb719c4c9ee0096dc379f5/56f5cf810647d37a244bbeb2.wav')
-        .then(response => {
-            MOCK_URL = response;
-        });
+
+        dispatch(getUserProfile(userId));
+
+        // dispatch(fetchUser(userId));
+        // dispatch(fetchPoem('56f5cf810647d37a244bbeb2'));
+        // getAudioUrl('56eb719c4c9ee0096dc379f5/56f5cf810647d37a244bbeb2.wav')
+        // .then(response => {
+        //     MOCK_URL = response;
+        // });
 
         dispatch(requestMedia());
     }
