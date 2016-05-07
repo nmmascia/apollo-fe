@@ -5,9 +5,11 @@ import { getUserInfo } from 'selectors/user';
 
 const log = debug('ap.poem selectors'); // eslint-disable-line no-unused-vars
 
+const getAllPoems = state => state.poems.poemsById;
+
 export const getProfilePoem = createSelector(
     getUserInfo,
-    state => state.poems.poemsById,
+    getAllPoems,
     (currentUser, poems) => {
         if (!poems[currentUser.currentPoemId]) {
             return {

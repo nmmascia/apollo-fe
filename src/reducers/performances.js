@@ -1,29 +1,36 @@
 import debug from 'debug';
 import { CALL_API } from 'redux-api-middleware';
 
+import { getAudioUrl } from 'utils/aws-s3-service';
+
 const log = debug('ap.performances reducer'); // eslint-disable-line no-unused-vars
 
 //
 
-const RECEIVE_PAST_PERFORMANCES = 'RECEIVE_PAST_PERFORMANCES';
+export const RECEIVE_PAST_PERFORMANCES = 'RECEIVE_PAST_PERFORMANCES';
+
+export const GET_PERFORMANCE_AUDIO = 'GET_PERFORMANCE_AUDIO';
 
 //
 
 const initialState = {
-    performancesByUserId: {},
+    performancesById: {},
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
         case RECEIVE_PAST_PERFORMANCES: {
-            const { payload } = action;
+            const { performances } = action.payload;
+
+            const performancesById = performances.reduce((acc, cur) => {
+                const perfs = acc;
+                perfs[cur.id] = cur;
+                return perfs;
+            }, {});
+
             return {
                 ...state,
-                performancesByUserId: {
-                    [payload.userId]: [
-                        ...payload.performances,
-                    ],
-                },
+                performancesById,
             };
         }
         default: {
@@ -70,3 +77,12 @@ export const fetchPastPerformances = userId => ({
         ],
     },
 });
+
+export const fetchPerformanceAudio = id => (dispatch, getState) => {
+    const { performancesById } = getState().performances;
+    const { key } = performancesById[id];
+
+    getAudioUrl(key)
+    .then(audio => log(audio))
+    .catch(err => log(err));
+};

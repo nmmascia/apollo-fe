@@ -30,6 +30,8 @@ import {
 
 import { getUserProfile } from 'reducers/actions';
 
+import { getPastPerformancesForUser } from 'selectors/performances';
+
 import Profile from 'components/Profile';
 
 const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
@@ -72,6 +74,7 @@ const MOCK_PERFORMANCES = [
 
 @connect((state, props) => ({
     isCurrentUser: isCurrentProfileUser(state, props),
+    pastPerformances: getPastPerformancesForUser(state, props),
     poem: getProfilePoem(state, props),
     user: getUserInfo(state, props),
     userId: getUserIdFromParams(state, props),
@@ -80,6 +83,7 @@ export default class ProfileContainer extends Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
         isCurrentUser: PropTypes.bool.isRequired,
+        pastPerformances: PropTypes.array,
         poem: PropTypes.shape({
             author: PropTypes.string,
             isLoading: PropTypes.bool,
@@ -101,12 +105,10 @@ export default class ProfileContainer extends Component {
 
         dispatch(getUserProfile(userId));
 
-        // dispatch(fetchUser(userId));
-        // dispatch(fetchPoem('56f5cf810647d37a244bbeb2'));
-        // getAudioUrl('56eb719c4c9ee0096dc379f5/56f5cf810647d37a244bbeb2.wav')
-        // .then(response => {
-        //     MOCK_URL = response;
-        // });
+        getAudioUrl('nmmascia/An-Exiles-Farewell.wav')
+        .then(response => {
+            MOCK_URL = response;
+        });
 
         dispatch(requestMedia());
     }
@@ -114,6 +116,7 @@ export default class ProfileContainer extends Component {
     render() {
         const {
             isCurrentUser,
+            pastPerformances,
             poem,
             user: {
                 name,
@@ -127,7 +130,7 @@ export default class ProfileContainer extends Component {
                 isCurrentUser={isCurrentUser}
                 name={name}
                 onFollowUser={user => log(user)}
-                pastPerformances={MOCK_PERFORMANCES.map(perf => {
+                pastPerformances={pastPerformances.map(perf => {
                     const withAudio = perf;
                     withAudio.url = MOCK_URL;
                     return withAudio;

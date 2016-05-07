@@ -3,7 +3,10 @@ import { browserHistory } from 'react-router';
 
 import { fetchUser } from 'reducers/users';
 import { fetchPoem } from 'reducers/poems';
-import { fetchPastPerformances } from 'reducers/performances';
+import {
+    fetchPastPerformances,
+    fetchPerformanceAudio,
+} from 'reducers/performances';
 
 const log = debug('ap.actions'); // eslint-disable-line no-unused-vars
 
@@ -17,6 +20,18 @@ const getCurrentUser = ({ users }) => {
     return usersById[currentUserId];
 };
 
+const getCurrentUserPerformances = (user, performances) => {
+    const ids = Object.keys(performances);
+
+    const pastPerformances = ids.map(id => {
+        if (user.performances.includes(id)) {
+            return performances[id];
+        }
+    });
+
+    return pastPerformances;
+};
+
 export const goToUserProfile = user => dispatch => {
     browserHistory.push(`/profile/${user}`);
     dispatch({ type: GO_TO_USER_PROFILE, user });
@@ -25,10 +40,20 @@ export const goToUserProfile = user => dispatch => {
 export const getUserProfile = userId => (dispatch, getState) => {
     dispatch(fetchUser(userId))
     .then(() => {
-        const user = getCurrentUser(getState());
+        const state = getState();
+        const user = getCurrentUser(state);
         const { currentPoemId } = user;
 
+        const performances = state.performances.performancesById;
+        const pastPerformances = getCurrentUserPerformances(user, performances);
+
         dispatch(fetchPoem(currentPoemId));
-        dispatch(fetchPastPerformances(user.id));
+
+        dispatch(fetchPastPerformances(user.id))
+        .then(() => {
+            pastPerformances.forEach(perf => {
+                dispatch(fetchPerformanceAudio(perf.key));
+            });
+        });
     });
 };
