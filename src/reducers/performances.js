@@ -98,5 +98,13 @@ export const fetchPastPerformances = userId => ({
             RECEIVE_PAST_PERFORMANCES,
             'FAILURE_PAST_PERFORMANCES',
         ],
+        bailout: ({ users }) => {
+            // todo: improve bailout here because we might be
+            // requesting more past performances once pagination
+            // is enabled
+            const bailout = Boolean(users.usersById[userId].performances.length);
+            log(bailout);
+            return bailout;
+        },
     },
 });

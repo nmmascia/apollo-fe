@@ -15,7 +15,10 @@ export const userStorage = storage => {
             if (usersById[currentUserId]) {
                 storage.put(key, {
                     userToken,
-                    userInfo: usersById[currentUserId],
+                    userInfo: {
+                        ...usersById[currentUserId],
+                        performances: [],
+                    },
                 }, callback);
             }
         },
