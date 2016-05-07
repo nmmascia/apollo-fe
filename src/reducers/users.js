@@ -1,8 +1,12 @@
 import debug from 'debug';
+import uniq from 'lodash.uniq';
 import { CALL_API } from 'redux-api-middleware';
 import { browserHistory } from 'react-router';
 
-import { RECEIVE_PAST_PERFORMANCES } from 'reducers/performances';
+import {
+    RECEIVE_PAST_PERFORMANCES,
+    SUCCESS_CREATE_PERFORMANCE,
+} from 'reducers/performances';
 
 const log = debug('ap.users.reducer'); // eslint-disable-line no-unused-vars
 
@@ -43,9 +47,7 @@ export default (state = initialState, action) => {
                 currentUserId: '',
                 userToken: '',
                 usersById: {
-                    [state.currentUserId]: {
-
-                    },
+                    [state.currentUserId]: {},
                 },
             };
         }
@@ -71,6 +73,7 @@ export default (state = initialState, action) => {
                     [id]: {
                         name: '',
                         isLoading: true,
+                        performances: [],
                         profilePicture: null,
                         username: '',
                     },
@@ -80,6 +83,11 @@ export default (state = initialState, action) => {
         case RECEIVE_PAST_PERFORMANCES: {
             const { performances, userId } = action.payload;
 
+            const allPerformances = uniq([
+                ...state.usersById[userId].performances,
+                ...performances.map(perf => perf.id),
+            ]);
+
             return {
                 ...state,
                 usersById: {
@@ -87,7 +95,23 @@ export default (state = initialState, action) => {
                     [userId]: {
                         ...state.usersById[userId],
                         performances: [
-                            ...performances.map(perf => perf.id),
+                            ...allPerformances,
+                        ],
+                    },
+                },
+            };
+        }
+        case SUCCESS_CREATE_PERFORMANCE: {
+            const { performance, userId } = action.payload;
+            return {
+                ...state,
+                usersById: {
+                    ...state.usersById,
+                    [userId]: {
+                        ...state.usersById[userId],
+                        performances: [
+                            ...state.usersById[userId].performances,
+                            performance.id,
                         ],
                     },
                 },

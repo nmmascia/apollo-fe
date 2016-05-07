@@ -13,6 +13,7 @@ const log = debug('ap.Profile'); // eslint-disable-line no-unused-vars
 export default class Profile extends Component {
     static propTypes = {
         isCurrentUser: PropTypes.bool.isRequired,
+        isLoadingPastPerformances: PropTypes.bool.isRequired,
         name: PropTypes.string,
         onFollowUser: PropTypes.func.isRequired,
         pastPerformances: PropTypes.array,
@@ -26,9 +27,22 @@ export default class Profile extends Component {
         username: PropTypes.string.isRequired,
     };
 
+    renderAudioRecorder() {
+        const { isCurrentUser } = this.props;
+
+        if (isCurrentUser) {
+            return (
+                <Row>
+                    <AudioRecorderContainer />
+                </Row>
+            );
+        }
+
+        return null;
+    }
+
     renderCurrentPoem() {
         const {
-            onAudioRecorded,
             poem: {
                 author,
                 isLoading,
@@ -43,7 +57,6 @@ export default class Profile extends Component {
             <CurrentPoem
                 author={author}
                 lines={lines}
-                onAudioRecorded={onAudioRecorded}
                 title={title}
             />
         );
@@ -52,6 +65,7 @@ export default class Profile extends Component {
     render() {
         const {
             isCurrentUser,
+            isLoadingPastPerformances,
             name,
             onFollowUser,
             pastPerformances,
@@ -75,11 +89,10 @@ export default class Profile extends Component {
                         {this.renderCurrentPoem()}
                     </Column>
                     <Column width="1/3">
-                        <Row>
-                            <AudioRecorderContainer />
-                        </Row>
+                        {this.renderAudioRecorder()}
                         <Row>
                             <PastPerformances
+                                isLoadingPastPerformances={isLoadingPastPerformances}
                                 performances={pastPerformances}
                             />
                         </Row>

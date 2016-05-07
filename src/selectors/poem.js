@@ -5,7 +5,7 @@ import { getUserInfo } from 'selectors/user';
 
 const log = debug('ap.poem selectors'); // eslint-disable-line no-unused-vars
 
-const getAllPoems = state => state.poems.poemsById;
+export const getAllPoems = state => state.poems.poemsById;
 
 export const getProfilePoem = createSelector(
     getUserInfo,

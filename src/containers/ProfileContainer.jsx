@@ -38,6 +38,7 @@ const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
 
 @connect((state, props) => ({
     isCurrentUser: isCurrentProfileUser(state, props),
+    isLoadingPastPerformances: state.performances.isLoadingPerformances,
     pastPerformances: getPastPerformancesForUser(state, props),
     poem: getProfilePoem(state, props),
     user: getUserInfo(state, props),
@@ -47,6 +48,7 @@ export default class ProfileContainer extends Component {
     static propTypes = {
         dispatch: PropTypes.func.isRequired,
         isCurrentUser: PropTypes.bool.isRequired,
+        isLoadingPastPerformances: PropTypes.bool.isRequired,
         pastPerformances: PropTypes.array,
         poem: PropTypes.shape({
             author: PropTypes.string,
@@ -73,6 +75,7 @@ export default class ProfileContainer extends Component {
     render() {
         const {
             isCurrentUser,
+            isLoadingPastPerformances,
             pastPerformances,
             poem,
             user: {
@@ -85,6 +88,7 @@ export default class ProfileContainer extends Component {
         return (
             <Profile
                 isCurrentUser={isCurrentUser}
+                isLoadingPastPerformances={isLoadingPastPerformances}
                 name={name}
                 onFollowUser={user => log(user)}
                 pastPerformances={pastPerformances}

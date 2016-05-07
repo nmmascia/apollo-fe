@@ -9,6 +9,7 @@ const findUserById = (id, allUsers) => {
             name: '',
             isLoading: true,
             profilePicture: null,
+            performances: [],
             username: '',
         };
     }

@@ -9,6 +9,7 @@ const log = debug('ap.PastPerformances'); // eslint-disable-line no-unused-vars
 
 export default class PastPerformances extends Component {
     static propTypes = {
+        isLoadingPastPerformances: PropTypes.bool.isRequired,
         performances: PropTypes.arrayOf(PropTypes.shape({
             author: PropTypes.string.isRequired,
             dateRecorded: PropTypes.string.isRequired,
@@ -19,12 +20,34 @@ export default class PastPerformances extends Component {
     }
 
     render() {
-        const performanceComponents = this.props.performances.map(perf => (
+        const {
+            isLoadingPastPerformances,
+            performances,
+        } = this.props;
+
+        if (isLoadingPastPerformances) {
+            return (
+                <section className={styles.container}>
+                    Loading...
+                </section>
+            );
+        }
+
+        if (performances.length === 0) {
+            return (
+                <section className={styles.container}>
+                    You have no performances!
+                    Try recording one!
+                </section>
+            );
+        }
+
+        const performanceComponents = this.props.performances.map((perf, index) => (
             <PastPerformance
                 author={perf.author}
                 dateRecorded={perf.dateRecorded}
                 id={perf.id}
-                key={perf.id}
+                key={index}
                 title={perf.title}
                 url={perf.url}
             />

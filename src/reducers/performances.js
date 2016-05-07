@@ -5,6 +5,9 @@ const log = debug('ap.performances reducer'); // eslint-disable-line no-unused-v
 
 //
 
+export const SUCCESS_CREATE_PERFORMANCE = 'SUCCESS_CREATE_PERFORMANCE';
+
+const REQUEST_PAST_PERFORMANCES = 'REQUEST_PAST_PERFORMANCES';
 export const RECEIVE_PAST_PERFORMANCES = 'RECEIVE_PAST_PERFORMANCES';
 
 export const GET_PERFORMANCE_AUDIO = 'GET_PERFORMANCE_AUDIO';
@@ -12,11 +15,18 @@ export const GET_PERFORMANCE_AUDIO = 'GET_PERFORMANCE_AUDIO';
 //
 
 const initialState = {
+    isLoadingPerformances: false,
     performancesById: {},
 };
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case REQUEST_PAST_PERFORMANCES: {
+            return {
+                ...state,
+                isLoadingPerformances: true,
+            };
+        }
         case RECEIVE_PAST_PERFORMANCES: {
             const { performances } = action.payload;
 
@@ -28,7 +38,21 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
+                isLoadingPerformances: false,
                 performancesById,
+            };
+        }
+        case SUCCESS_CREATE_PERFORMANCE: {
+            const { performance } = action.payload;
+
+            return {
+                ...state,
+                performancesById: {
+                    ...state.performancesById,
+                    [performance.id]: {
+                        ...performance,
+                    },
+                },
             };
         }
         default: {
@@ -49,6 +73,7 @@ export const createPerformance = id => (dispatch, getState) => {
     formData.append('performance', performance.blob, 'audio.wav');
     formData.append('userId', userId);
     formData.append('poemId', poemId);
+    formData.append('dateRecorded', new Date().toISOString());
 
     dispatch({
         [CALL_API]: {
@@ -57,7 +82,7 @@ export const createPerformance = id => (dispatch, getState) => {
             method: 'POST',
             types: [
                 'REQUEST_CREATE_PERFORMANCE',
-                'SUCCESS_CREATE_PERFORMANCE',
+                SUCCESS_CREATE_PERFORMANCE,
                 'FAILURE_CREATE_PERFORMANCE',
             ],
         },
@@ -69,7 +94,7 @@ export const fetchPastPerformances = userId => ({
         endpoint: `//localhost:8080/performance?userId=${userId}`,
         method: 'GET',
         types: [
-            'REQUEST_PAST_PERFORMANCES',
+            REQUEST_PAST_PERFORMANCES,
             RECEIVE_PAST_PERFORMANCES,
             'FAILURE_PAST_PERFORMANCES',
         ],

@@ -5,7 +5,7 @@ import Audio from 'components/lib/Audio';
 import styles from './PastPerformance.css';
 
 const PastPerformance = ({ id, author, dateRecorded, title, url }) => (
-    <div className={styles.container} key={id}>
+    <div className={styles.container}>
         <ul className={styles.list}>
             <li><h1 className={styles.title}>{title}</h1></li>
             <li><h3 className={styles.author}>{author}</h3></li>

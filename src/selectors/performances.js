@@ -2,6 +2,7 @@ import debug from 'debug';
 import { createSelector } from 'reselect';
 
 import { getUserInfo } from 'selectors/user';
+import { getAllPoems } from 'selectors/poem';
 
 const log = debug('ap.performances'); // eslint-disable-line no-unused-vars
 
@@ -10,15 +11,26 @@ const getAllPerformances = state => state.performances.performancesById;
 export const getPastPerformancesForUser = createSelector(
     getAllPerformances,
     getUserInfo,
-    (performances, user) => {
-        const ids = Object.keys(performances);
+    getAllPoems,
+    (performancesById, user, poemsById) => {
+        const pastPerformances = user.performances.map(id => {
+            let performance = performancesById[id];
 
-        const pastPerformances = ids.map(id => {
-            if (user.performances.includes(id)) {
-                return performances[id];
+            if (performance !== undefined) {
+                const { author, title } = poemsById[performance.poemId];
+                performance.author = author || '';
+                performance.title = title || '';
+            } else {
+                performance = {
+                    id: '',
+                    dateRecorded: '',
+                    author: '',
+                    title: '',
+                    url: '',
+                };
             }
 
-            return null;
+            return performance;
         });
 
         return pastPerformances;
