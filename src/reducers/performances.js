@@ -1,8 +1,6 @@
 import debug from 'debug';
 import { CALL_API } from 'redux-api-middleware';
 
-import { getAudioUrl } from 'utils/aws-s3-service';
-
 const log = debug('ap.performances reducer'); // eslint-disable-line no-unused-vars
 
 //
