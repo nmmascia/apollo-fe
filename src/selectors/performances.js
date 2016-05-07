@@ -17,6 +17,8 @@ export const getPastPerformancesForUser = createSelector(
             if (user.performances.includes(id)) {
                 return performances[id];
             }
+
+            return null;
         });
 
         return pastPerformances;

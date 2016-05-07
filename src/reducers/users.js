@@ -79,6 +79,7 @@ export default (state = initialState, action) => {
         }
         case RECEIVE_PAST_PERFORMANCES: {
             const { performances, userId } = action.payload;
+
             return {
                 ...state,
                 usersById: {
@@ -86,7 +87,6 @@ export default (state = initialState, action) => {
                     [userId]: {
                         ...state.usersById[userId],
                         performances: [
-                            ...state.usersById[userId].performances,
                             ...performances.map(perf => perf.id),
                         ],
                     },

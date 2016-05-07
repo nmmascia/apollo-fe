@@ -44,16 +44,7 @@ export const getUserProfile = userId => (dispatch, getState) => {
         const user = getCurrentUser(state);
         const { currentPoemId } = user;
 
-        const performances = state.performances.performancesById;
-        const pastPerformances = getCurrentUserPerformances(user, performances);
-
         dispatch(fetchPoem(currentPoemId));
-
-        dispatch(fetchPastPerformances(user.id))
-        .then(() => {
-            pastPerformances.forEach(perf => {
-                dispatch(fetchPerformanceAudio(perf.key));
-            });
-        });
+        dispatch(fetchPastPerformances(user.id));
     });
 };

@@ -77,12 +77,3 @@ export const fetchPastPerformances = userId => ({
         ],
     },
 });
-
-export const fetchPerformanceAudio = id => (dispatch, getState) => {
-    const { performancesById } = getState().performances;
-    const { key } = performancesById[id];
-
-    getAudioUrl(key)
-    .then(audio => log(audio))
-    .catch(err => log(err));
-};

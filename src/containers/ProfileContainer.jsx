@@ -36,42 +36,6 @@ import Profile from 'components/Profile';
 
 const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
 
-let MOCK_URL = null;
-
-const MOCK_PERFORMANCES = [
-    {
-        id: '1',
-        title: 'Hello',
-        author: 'mr.hallo',
-        dateRecorded: new Date().toISOString(),
-    },
-    {
-        id: '2',
-        title: 'Hello',
-        author: 'mr.hallo',
-        dateRecorded: new Date().toISOString(),
-    },
-    {
-        id: '3',
-        title: 'Hello',
-        author: 'mr.hallo',
-        dateRecorded: new Date().toISOString(),
-    },
-    {
-        id: '4',
-        title: 'Hello',
-        author: 'mr.hallo',
-        dateRecorded: new Date().toISOString(),
-    },
-    {
-        id: '5',
-        title: 'Hello',
-        author: 'mr.hallo',
-        dateRecorded: new Date().toISOString(),
-    },
-];
-
-
 @connect((state, props) => ({
     isCurrentUser: isCurrentProfileUser(state, props),
     pastPerformances: getPastPerformancesForUser(state, props),
@@ -102,14 +66,7 @@ export default class ProfileContainer extends Component {
 
     componentWillMount() {
         const { dispatch, userId } = this.props;
-
         dispatch(getUserProfile(userId));
-
-        getAudioUrl('nmmascia/An-Exiles-Farewell.wav')
-        .then(response => {
-            MOCK_URL = response;
-        });
-
         dispatch(requestMedia());
     }
 
@@ -130,11 +87,7 @@ export default class ProfileContainer extends Component {
                 isCurrentUser={isCurrentUser}
                 name={name}
                 onFollowUser={user => log(user)}
-                pastPerformances={pastPerformances.map(perf => {
-                    const withAudio = perf;
-                    withAudio.url = MOCK_URL;
-                    return withAudio;
-                })}
+                pastPerformances={pastPerformances}
                 profilePicture={profilePicture}
                 poem={poem}
                 username={username}
