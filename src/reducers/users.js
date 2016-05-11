@@ -18,6 +18,10 @@ const LOGOUT_USER = 'LOGOUT_USER';
 const REQUEST_LOGIN = 'REQUEST_LOGIN';
 const LOGIN_USER = 'LOGIN_USER';
 
+const REQUEST_NEXT_POEM = 'REQUEST_NEXT_POEM';
+const RECEIVE_NEXT_POEM = 'RECEIVE_NEXT_POEM';
+const FAILURE_NEXT_POEM = 'FAILURE_NEXT_POEM';
+
 //
 
 const initialState = {
@@ -131,7 +135,7 @@ export const logoutUser = () => ({
 
 export const loginUser = (username, password) => ({
     [CALL_API]: {
-        endpoint: 'http://localhost:8080/user/auth',
+        endpoint: '//localhost:8080/user/auth',
         method: 'POST',
         body: JSON.stringify({
             username,
@@ -159,7 +163,7 @@ export const loginUserAndNavigateToProfile = (username, password) => dispatch =>
 
 export const fetchUser = id => ({
     [CALL_API]: {
-        endpoint: `http://localhost:8080/user/${id}`,
+        endpoint: `//localhost:8080/user/${id}`,
         method: 'GET',
         types: [
             {
@@ -170,5 +174,17 @@ export const fetchUser = id => ({
             'FAILURE',
         ],
         bailout: ({ users }) => Boolean(users.usersById[id]),
+    },
+});
+
+export const getNextCurrentPoemForUser = id => ({
+    [CALL_API]: {
+        endpoint: `//localhost:8080/user/${id}/next-poem`,
+        method: 'PUT',
+        types: [
+            REQUEST_NEXT_POEM,
+            RECEIVE_NEXT_POEM,
+            FAILURE_NEXT_POEM,
+        ],
     },
 });

@@ -8,6 +8,8 @@ import CurrentPoem from 'components/CurrentPoem';
 import ProfileHeader from './ProfileHeader';
 import PastPerformances from 'components/PastPerformances';
 
+import styles from './Profile.css';
+
 const log = debug('ap.Profile'); // eslint-disable-line no-unused-vars
 
 export default class Profile extends Component {
@@ -31,11 +33,7 @@ export default class Profile extends Component {
         const { isCurrentUser } = this.props;
 
         if (isCurrentUser) {
-            return (
-                <Row>
-                    <AudioRecorderContainer />
-                </Row>
-            );
+            return <AudioRecorderContainer />;
         }
 
         return null;
@@ -74,7 +72,7 @@ export default class Profile extends Component {
         } = this.props;
 
         return (
-            <Grid gutterWidth={10}>
+            <Grid className={styles.container} gutterWidth={10}>
                 <Row>
                     <ProfileHeader
                         isCurrentUser={isCurrentUser}
@@ -89,7 +87,9 @@ export default class Profile extends Component {
                         {this.renderCurrentPoem()}
                     </Column>
                     <Column width="1/3">
-                        {this.renderAudioRecorder()}
+                        <Row>
+                            {this.renderAudioRecorder()}
+                        </Row>
                         <Row>
                             <PastPerformances
                                 isLoadingPastPerformances={isLoadingPastPerformances}

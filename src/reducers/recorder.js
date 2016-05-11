@@ -21,6 +21,11 @@ const GET_USER_MEDIA_SUCCESS = 'GET_USER_MEDIA_SUCCESS';
 const START_RECORDING = 'START_RECORDING';
 const STOP_RECORDING = 'STOP_RECORDING';
 
+const START_TICKING = 'START_TICKING';
+const STOP_TICKING = 'STOP_TICKING';
+const TICK = 'TICK';
+
+
 export const DELETE_RECORDING = 'DELETE_RECORDING';
 
 //
@@ -30,6 +35,8 @@ const initialState = {
     isRecording: false,
     isRequested: false,
     recordingsById: {},
+    intervalId: null,
+    recordingDuration: 0,
 };
 
 export default (state = initialState, action) => {
@@ -48,8 +55,12 @@ export default (state = initialState, action) => {
                 isRecording: false,
                 recordingsById: {
                     ...state.recordingsById,
-                    [recording.id]: recording,
+                    [recording.id]: {
+                        ...recording,
+                        duration: state.recordingDuration,
+                    },
                 },
+                recordingDuration: 0,
             };
         }
         case DELETE_RECORDING: {
@@ -75,6 +86,26 @@ export default (state = initialState, action) => {
                 ...state,
                 isConnected: true,
                 isRequested: false,
+            };
+        }
+        case START_TICKING: {
+            const { intervalId } = action.payload;
+
+            return {
+                ...state,
+                intervalId,
+            };
+        }
+        case STOP_TICKING: {
+            return {
+                ...state,
+                intervalId: null,
+            };
+        }
+        case TICK: {
+            return {
+                ...state,
+                recordingDuration: state.recordingDuration + 1,
             };
         }
         default: {
@@ -129,4 +160,17 @@ export const deleteRecording = id => {
             id,
         },
     };
+};
+
+const tick = () => ({ type: TICK });
+
+export const startTicking = () => dispatch => {
+    const intervalId = setInterval(() => dispatch(tick()), 1000);
+    dispatch({ type: START_TICKING, payload: { intervalId } });
+};
+
+export const stopTicking = () => (dispatch, getState) => {
+    const { intervalId } = getState().recorder;
+    clearInterval(intervalId);
+    dispatch({ type: STOP_TICKING });
 };

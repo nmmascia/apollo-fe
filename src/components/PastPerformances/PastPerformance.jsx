@@ -4,7 +4,7 @@ import Audio from 'components/lib/Audio';
 
 import styles from './PastPerformance.css';
 
-const PastPerformance = ({ id, author, dateRecorded, title, url }) => (
+const PastPerformance = ({ author, dateRecorded, title, url }) => (
     <div className={styles.container}>
         <ul className={styles.list}>
             <li><h1 className={styles.title}>{title}</h1></li>

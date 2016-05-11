@@ -1,6 +1,10 @@
 import debug from 'debug';
 import { CALL_API } from 'redux-api-middleware';
 
+import {
+    RECEIVE_PAST_PERFORMANCES,
+} from 'reducers/performances';
+
 const log = debug('ap.poems.reducer'); // eslint-disable-line no-unused-vars
 
 //
@@ -45,6 +49,22 @@ export default (state = initialState, action) => {
                 },
             };
         }
+        case RECEIVE_PAST_PERFORMANCES: {
+            const { poems } = action.payload;
+            const poemsById = poems.reduce((acc, curr) => {
+                const all = acc;
+                all[curr.id] = curr;
+                return all;
+            }, {});
+
+            return {
+                ...state,
+                poemsById: {
+                    ...state.poemsById,
+                    ...poemsById,
+                },
+            };
+        }
         default: {
             return state;
         }
@@ -55,7 +75,7 @@ export default (state = initialState, action) => {
 
 export const fetchPoem = id => ({
     [CALL_API]: {
-        endpoint: `http://localhost:8080/poem/${id}`,
+        endpoint: `//localhost:8080/poem/${id}`,
         method: 'GET',
         types: [
             {

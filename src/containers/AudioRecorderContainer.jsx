@@ -9,6 +9,8 @@ import {
     startRecording,
     stopRecording,
     deleteRecording,
+    startTicking,
+    stopTicking,
 } from 'reducers/recorder';
 
 import {
@@ -20,19 +22,25 @@ import {
 } from 'reducers/performances';
 
 import {
+    getNextProfileState,
+} from 'reducers/actions';
+
+import {
     convertRecordingsToArray,
 } from 'selectors/recordings';
 
-const log = debug('ap.AudioRecorderContainer');
+const log = debug('ap.AudioRecorderContainer'); // eslint-disable-line no-unused-vars
 
 @connect(state => ({
     currentRecording: state.carousel.current,
+    currentRecordingDuration: state.recorder.recordingDuration,
     isRecording: state.recorder.isRecording,
     recordings: convertRecordingsToArray(state),
 }))
 export default class AudioRecorderContainer extends Component {
     static propTypes = {
         currentRecording: PropTypes.number.isRequired,
+        currentRecordingDuration: PropTypes.number.isRequired,
         dispatch: PropTypes.func.isRequired,
         isRecording: PropTypes.bool.isRequired,
         recordings: PropTypes.arrayOf(PropTypes.shape({
@@ -50,16 +58,13 @@ export default class AudioRecorderContainer extends Component {
     handleStart() {
         const { dispatch } = this.props;
         dispatch(startRecording());
+        dispatch(startTicking());
     }
 
     handleStop() {
         const { dispatch } = this.props;
         dispatch(stopRecording());
-    }
-
-    handleAudioRecorded() {
-        const { dispatch } = this.props;
-        dispatch({ type: 'AUDIO_RECORDED' });
+        dispatch(stopTicking());
     }
 
     handleChangeCurrentRecording(value) {
@@ -74,12 +79,13 @@ export default class AudioRecorderContainer extends Component {
 
     handleSaveRecording(id) {
         const { dispatch } = this.props;
-        dispatch(createPerformance(id));
+        dispatch(getNextProfileState(id));
     }
 
     render() {
         const {
             currentRecording,
+            currentRecordingDuration,
             isRecording,
             recordings,
         } = this.props;
@@ -87,6 +93,7 @@ export default class AudioRecorderContainer extends Component {
         return (
             <AudioRecorder
                 currentRecording={currentRecording}
+                currentRecordingDuration={currentRecordingDuration}
                 isRecording={isRecording}
                 onChangeCurrentRecording={::this.handleChangeCurrentRecording}
                 onDeleteRecording={::this.handleDeleteRecording}

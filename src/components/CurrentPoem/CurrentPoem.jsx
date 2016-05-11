@@ -1,8 +1,6 @@
-import AudioRecorder from 'react-audio-recorder';
 import debug from 'debug';
 import React, { PropTypes } from 'react';
 
-import AudioRecorderContainer from 'containers/AudioRecorderContainer';
 import PoemViewer from 'components/PoemViewer';
 
 import styles from './CurrentPoem.css';

@@ -75,7 +75,7 @@ export const createPerformance = id => (dispatch, getState) => {
     formData.append('poemId', poemId);
     formData.append('dateRecorded', new Date().toISOString());
 
-    dispatch({
+    return dispatch({
         [CALL_API]: {
             body: formData,
             endpoint: '//localhost:8080/performance/create',

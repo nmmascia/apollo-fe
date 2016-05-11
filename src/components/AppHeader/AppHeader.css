@@ -2,10 +2,11 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    height: 40px;
-    background-color: #4a3f60;
+    height: 60px;
+    background: linear-gradient(to bottom, #4a3f60, #262132);
     color: #fff;
     padding: 0 10px;
+    font-size: 16px;
 }
 
 .links {
@@ -16,6 +17,10 @@
 .links > li {
     display: inline-block;
     margin: 0 5px;
+}
+
+.links > li:first-child {
+    margin: 0 10px;
 }
 
 .anchorTag {
@@ -29,5 +34,14 @@
 }
 
 .logo {
-    font-size: 18px;
+    font-size: 1.625em;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: font-size 0.2s ease-in-out;
+    text-transform: uppercase;
+}
+
+.logo:hover {
+    font-size: 1.7em;
 }

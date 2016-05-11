@@ -32,6 +32,7 @@ export default class ProfileHeader extends Component {
         return (
             <div className={styles.section}>
                 <Thumbnail
+                    className={styles.profilePicture}
                     height={150}
                     url={profilePicture}
                     width={150}

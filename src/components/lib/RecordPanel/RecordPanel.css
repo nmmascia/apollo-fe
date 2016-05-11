@@ -1,0 +1,24 @@
+.container {
+    padding: 5px;
+    background-color: #eee;
+    width: 100%;
+    position: relative;
+}
+
+.text {
+    padding-left: 15px;
+    vertical-align: middle;
+}
+
+.recordButton {
+    display: inline-block;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.duration {
+    position: absolute;
+    right: 15px;
+    top: 12px;
+}

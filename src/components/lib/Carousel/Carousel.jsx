@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Grid, Column } from 'react-cellblock';
+import { Column, Row } from 'react-cellblock';
 
 import styles from './Carousel.css';
 
@@ -42,7 +42,7 @@ export default class Carousel extends Component {
 
         return (
             <div className={styles.container}>
-                <Grid>
+                <Row>
                     <Column width="1/7">
                         <span
                             onClick={onGoToPrevious}
@@ -62,7 +62,7 @@ export default class Carousel extends Component {
                             Next
                         </span>
                     </Column>
-                </Grid>
+                </Row>
             </div>
         );
     }
