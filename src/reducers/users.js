@@ -19,7 +19,7 @@ const REQUEST_LOGIN = 'REQUEST_LOGIN';
 const LOGIN_USER = 'LOGIN_USER';
 
 const REQUEST_NEXT_POEM = 'REQUEST_NEXT_POEM';
-const RECEIVE_NEXT_POEM = 'RECEIVE_NEXT_POEM';
+export const RECEIVE_NEXT_POEM = 'RECEIVE_NEXT_POEM';
 const FAILURE_NEXT_POEM = 'FAILURE_NEXT_POEM';
 
 //
@@ -117,6 +117,19 @@ export default (state = initialState, action) => {
                             ...state.usersById[userId].performances,
                             performance.id,
                         ],
+                    },
+                },
+            };
+        }
+        case RECEIVE_NEXT_POEM: {
+            const { poem } = action.payload;
+            return {
+                ...state,
+                usersById: {
+                    ...state.usersById,
+                    [state.currentUserId]: {
+                        ...state.usersById[state.currentUserId],
+                        currentPoemId: poem.id,
                     },
                 },
             };

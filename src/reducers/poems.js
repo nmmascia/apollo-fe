@@ -5,6 +5,10 @@ import {
     RECEIVE_PAST_PERFORMANCES,
 } from 'reducers/performances';
 
+import {
+    RECEIVE_NEXT_POEM,
+} from 'reducers/users';
+
 const log = debug('ap.poems.reducer'); // eslint-disable-line no-unused-vars
 
 //
@@ -20,6 +24,19 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case RECEIVE_NEXT_POEM: {
+            const poem = action.payload;
+            return {
+                ...state,
+                poemsById: {
+                    ...state.poemsById,
+                    [poem.id]: {
+                        ...poem,
+                        isLoading: false,
+                    },
+                },
+            };
+        }
         case RECEIVE_POEM: {
             const poem = action.payload;
             return {

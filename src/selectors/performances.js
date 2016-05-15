@@ -14,7 +14,7 @@ export const getPastPerformancesForUser = createSelector(
     getAllPoems,
     (performancesById, user, poemsById) => {
         const pastPerformances = user.performances.map(id => {
-            let performance = performancesById[id];
+            let performance = { ...performancesById[id] };
 
             if (performance !== undefined) {
                 const { author, title } = poemsById[performance.poemId];
@@ -34,5 +34,13 @@ export const getPastPerformancesForUser = createSelector(
         });
 
         return pastPerformances;
+    }
+);
+
+export const getPerformancesAsArray = createSelector(
+    getAllPerformances,
+    performances => {
+        const keys = Object.keys(performances);
+        return keys.map(key => performances[key]);
     }
 );

@@ -12,6 +12,8 @@ export const RECEIVE_PAST_PERFORMANCES = 'RECEIVE_PAST_PERFORMANCES';
 
 export const GET_PERFORMANCE_AUDIO = 'GET_PERFORMANCE_AUDIO';
 
+const RECEIVE_PERFORMANCE_FEED = 'RECEIVE_PERFORMANCE_FEED';
+
 //
 
 const initialState = {
@@ -106,5 +108,17 @@ export const fetchPastPerformances = userId => ({
             log(bailout);
             return bailout;
         },
+    },
+});
+
+export const fetchPerformanceFeed = () => ({
+    [CALL_API]: {
+        endpoint: '//localhost:8080/performance/feed',
+        method: 'GET',
+        types: [
+            'REQUEST_PERFORMANCE_FEED',
+            RECEIVE_PERFORMANCE_FEED,
+            'FAILURE_PAST_PERFORMANCES',
+        ],
     },
 });

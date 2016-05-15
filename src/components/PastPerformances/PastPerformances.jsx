@@ -1,7 +1,7 @@
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 
-import PastPerformance from './PastPerformance';
+import Performance from 'components/lib/Performance';
 
 import styles from './PastPerformances';
 
@@ -43,7 +43,7 @@ export default class PastPerformances extends Component {
         }
 
         const performanceComponents = this.props.performances.map((perf, index) => (
-            <PastPerformance
+            <Performance
                 author={perf.author}
                 dateRecorded={perf.dateRecorded}
                 id={perf.id}

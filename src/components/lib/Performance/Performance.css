@@ -1,14 +1,15 @@
 .container {
     font-size: 12px;
     padding: 5px;
+    cursor: pointer;
 }
 
-.title {
+.mainTitle {
     font-size: 1.4em;
     font-weight: 400;
 }
 
-.author {
+.secondaryTitle {
     font-size: 1em;
 }
 

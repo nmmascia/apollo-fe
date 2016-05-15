@@ -13,10 +13,23 @@ export default class PoemViewer extends Component {
 
     renderLines() {
         const { lines } = this.props;
+        const elements = lines.map((line, index) => {
+            if (line === '') return <br key={index} />;
+
+            return (
+                <li
+                    className={styles.line}
+                    key={index}
+                >
+                    {line}
+                </li>
+            );
+        });
+
         return (
-            <ul>
-                {lines.map((line, index) => <li key={index}>{line}</li>)}
-            </ul>
+            <ol className={styles.list}>
+                {elements}
+            </ol>
         );
     }
 
