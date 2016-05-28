@@ -3,14 +3,20 @@ import uniq from 'lodash.uniq';
 import { CALL_API } from 'redux-api-middleware';
 import { browserHistory } from 'react-router';
 
+import { receivePoems } from 'reducers/poems';
+
 import {
     RECEIVE_PAST_PERFORMANCES,
     SUCCESS_CREATE_PERFORMANCE,
 } from 'reducers/performances';
 
+import reduceToIdMap from 'utils/reduceToIdMap';
+
 const log = debug('ap.users.reducer'); // eslint-disable-line no-unused-vars
 
 //
+
+const RECEIVE_USERS = 'RECEIVE_USERS';
 
 const REQUEST_USER = 'REQUEST_USER';
 const RECEIVE_USER = 'RECEIVE_USER';
@@ -32,6 +38,20 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case RECEIVE_USERS: {
+            const { users } = action.payload;
+            const newUsers = users.reduce(reduceToIdMap, {});
+
+            return {
+                ...state,
+                usersById: {
+                    ...newUsers,
+                    ...state.usersById,
+                },
+            };
+        }
+
+
         case LOGIN_USER: {
             const { user, code } = action.payload;
             return {
@@ -142,6 +162,14 @@ export default (state = initialState, action) => {
 
 //
 
+export const receiveUsers = users => ({
+    type: RECEIVE_USERS,
+    payload: {
+        users
+    },
+    meta: undefined,
+});
+
 export const logoutUser = () => ({
     type: LOGOUT_USER,
 });
@@ -200,4 +228,10 @@ export const getNextCurrentPoemForUser = id => ({
             FAILURE_NEXT_POEM,
         ],
     },
+});
+
+export const receiveUser = user => ({
+    type: RECEIVE_USER,
+    payload: user,
+    meta: undefined,
 });

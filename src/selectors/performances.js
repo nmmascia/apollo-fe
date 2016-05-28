@@ -8,6 +8,8 @@ const log = debug('ap.performances'); // eslint-disable-line no-unused-vars
 
 const getAllPerformances = state => state.performances.performancesById;
 
+const getTotalItems = state => state.feed.totalItems;
+
 export const getPastPerformancesForUser = createSelector(
     getAllPerformances,
     getUserInfo,
@@ -37,10 +39,13 @@ export const getPastPerformancesForUser = createSelector(
     }
 );
 
-export const getPerformancesAsArray = createSelector(
-    getAllPerformances,
-    performances => {
-        const keys = Object.keys(performances);
-        return keys.map(key => performances[key]);
-    }
-);
+// export const getPerformancesAsArray = createSelector(
+//     getAllPerformances,
+//     getTotalItems,
+//     (performances, totalItems) => {
+//         const keys = Object.keys(performances);
+//         const perfs = keys.map(key => performances[key]);
+//         log('Hello?', perfs);
+//         return perfs;
+//     }
+// );

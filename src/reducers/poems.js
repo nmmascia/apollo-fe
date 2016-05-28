@@ -9,9 +9,13 @@ import {
     RECEIVE_NEXT_POEM,
 } from 'reducers/users';
 
+import reduceToIdMap from 'utils/reduceToIdMap';
+
 const log = debug('ap.poems.reducer'); // eslint-disable-line no-unused-vars
 
 //
+
+const RECEIVE_POEMS = 'RECEIVE_POEMS';
 
 const REQUEST_POEM = 'REQUEST_POEM';
 const RECEIVE_POEM = 'RECEIVE_POEM';
@@ -24,8 +28,21 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case RECEIVE_POEMS: {
+            const { poems } = action.payload;
+            const newPoems = poems.reduce(reduceToIdMap, {});
+
+            return {
+                ...state,
+                poemsById: {
+                    ...newPoems,
+                    ...state.poemsById,
+                },
+            };
+        }
+
         case RECEIVE_NEXT_POEM: {
-            const poem = action.payload;
+            const { poem } = action.payload;
             return {
                 ...state,
                 poemsById: {
@@ -89,6 +106,14 @@ export default (state = initialState, action) => {
 };
 
 //
+
+export const receivePoems = poems => ({
+    type: RECEIVE_POEMS,
+    payload: {
+        poems,
+    },
+    meta: undefined,
+});
 
 export const fetchPoem = id => ({
     [CALL_API]: {

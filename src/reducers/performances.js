@@ -1,6 +1,8 @@
 import debug from 'debug';
 import { CALL_API } from 'redux-api-middleware';
 
+import reduceToIdMap from 'utils/reduceToIdMap';
+
 const log = debug('ap.performances reducer'); // eslint-disable-line no-unused-vars
 
 //
@@ -14,6 +16,8 @@ export const GET_PERFORMANCE_AUDIO = 'GET_PERFORMANCE_AUDIO';
 
 const RECEIVE_PERFORMANCE_FEED = 'RECEIVE_PERFORMANCE_FEED';
 
+const RECEIVE_PERFORMANCES = 'RECEIVE_PERFORMANCES';
+
 //
 
 const initialState = {
@@ -23,6 +27,19 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case RECEIVE_PERFORMANCES: {
+            const { performances } = action.payload;
+            const newPerformances = performances.reduce(reduceToIdMap, {});
+
+            return {
+                ...state,
+                performancesById: {
+                    ...newPerformances,
+                    ...state.performancesById,
+                },
+            };
+        }
+
         case REQUEST_PAST_PERFORMANCES: {
             return {
                 ...state,
@@ -64,6 +81,14 @@ export default (state = initialState, action) => {
 };
 
 //
+
+export const receivePerformances = performances => ({
+    type: RECEIVE_PERFORMANCES,
+    payload: {
+        performances,
+    },
+    meta: undefined,
+});
 
 export const createPerformance = id => (dispatch, getState) => {
     const { users, recorder } = getState();

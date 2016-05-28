@@ -58,9 +58,9 @@ export default class ProfileContainer extends Component {
             title: PropTypes.string,
         }).isRequired,
         user: PropTypes.shape({
+            avatar: PropTypes.string,
             id: PropTypes.string,
             name: PropTypes.string,
-            profilePicture: PropTypes.string,
             username: PropTypes.string.isRequired,
         }).isRequired,
         userId: PropTypes.string.isRequired,
@@ -80,7 +80,7 @@ export default class ProfileContainer extends Component {
             poem,
             user: {
                 name,
-                profilePicture,
+                avatar,
                 username,
             },
         } = this.props;
@@ -92,7 +92,7 @@ export default class ProfileContainer extends Component {
                 name={name}
                 onFollowUser={user => log(user)}
                 pastPerformances={pastPerformances}
-                profilePicture={profilePicture}
+                profilePicture={avatar}
                 poem={poem}
                 username={username}
             />
