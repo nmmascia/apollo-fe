@@ -6,7 +6,7 @@ import { getAllPoems } from 'selectors/poem';
 
 const log = debug('ap.performances'); // eslint-disable-line no-unused-vars
 
-const getAllPerformances = state => state.performances.performancesById;
+export const getAllPerformances = state => state.performances.performancesById;
 
 const getTotalItems = state => state.feed.totalItems;
 

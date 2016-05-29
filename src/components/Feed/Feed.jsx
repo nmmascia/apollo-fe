@@ -25,12 +25,14 @@ export default class Feed extends Component {
                 <li key={perf.id}>
                     <Performance
                         author={poem.author}
+                        avatar={user.avatar}
                         dateRecorded={perf.dateRecorded}
                         id={perf.id}
                         name={user.name}
                         showUserInfo={true}
                         title={poem.title}
                         url={perf.url}
+                        userId={user.id}
                         username={user.username}
                     />
                 </li>

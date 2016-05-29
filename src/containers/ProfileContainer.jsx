@@ -2,37 +2,21 @@ import { connect } from 'react-redux';
 import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 
+import Profile from 'components/Profile';
+
+import { fetchPoem } from 'reducers/poems';
+import { fetchUser } from 'reducers/users';
+import { requestMedia } from 'reducers/recorder';
+import { getUserProfile } from 'reducers/actions';
+
 import {
     getUserIdFromParams,
     getUserInfo,
     isCurrentUser as isCurrentProfileUser,
 } from 'selectors/user';
 
-import {
-    getProfilePoem,
-} from 'selectors/poem';
-
-import {
-    fetchPoem,
-} from 'reducers/poems';
-
-import {
-    fetchUser,
-} from 'reducers/users';
-
-import {
-    getAudioUrl,
-} from 'utils/aws-s3-service';
-
-import {
-    requestMedia,
-} from 'reducers/recorder';
-
-import { getUserProfile } from 'reducers/actions';
-
 import { getPastPerformancesForUser } from 'selectors/performances';
-
-import Profile from 'components/Profile';
+import { getProfilePoem } from 'selectors/poem';
 
 const log = debug('ap.ProfileContainer'); // eslint-disable-line no-unused-vars
 
@@ -84,6 +68,9 @@ export default class ProfileContainer extends Component {
                 username,
             },
         } = this.props;
+
+        log('HELLLLOOOOOO:', pastPerformances);
+        log('HELLLLOOOOOO:', poem);
 
         return (
             <Profile
