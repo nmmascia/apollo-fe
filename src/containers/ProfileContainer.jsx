@@ -4,8 +4,6 @@ import React, { Component, PropTypes } from 'react';
 
 import Profile from 'components/Profile';
 
-import { fetchPoem } from 'reducers/poems';
-import { fetchUser } from 'reducers/users';
 import { requestMedia } from 'reducers/recorder';
 import { getUserProfile } from 'reducers/actions';
 
@@ -36,7 +34,6 @@ export default class ProfileContainer extends Component {
         pastPerformances: PropTypes.array,
         poem: PropTypes.shape({
             author: PropTypes.string,
-            isLoading: PropTypes.bool,
             id: PropTypes.string,
             lines: PropTypes.arrayOf(PropTypes.string),
             title: PropTypes.string,
@@ -68,9 +65,6 @@ export default class ProfileContainer extends Component {
                 username,
             },
         } = this.props;
-
-        log('HELLLLOOOOOO:', pastPerformances);
-        log('HELLLLOOOOOO:', poem);
 
         return (
             <Profile

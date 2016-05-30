@@ -15,7 +15,11 @@ export const getPastPerformancesForUser = createSelector(
     getUserInfo,
     getAllPoems,
     (performancesById, user, poemsById) => {
+        log('Hello?', user);
+
         const pastPerformances = user.performances.map(id => {
+            log(user, id);
+
             let performance = { ...performancesById[id] };
 
             if (performance !== undefined) {

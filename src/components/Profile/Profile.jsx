@@ -21,7 +21,6 @@ export default class Profile extends Component {
         pastPerformances: PropTypes.array,
         poem: PropTypes.shape({
             author: PropTypes.string.isRequired,
-            isLoading: PropTypes.bool.isRequired,
             lines: PropTypes.arrayOf(PropTypes.string).isRequired,
             title: PropTypes.string.isRequired,
         }),
@@ -43,13 +42,10 @@ export default class Profile extends Component {
         const {
             poem: {
                 author,
-                isLoading,
                 lines,
                 title,
             },
         } = this.props;
-
-        if (isLoading) return <div>Loading...</div>;
 
         return (
             <CurrentPoem

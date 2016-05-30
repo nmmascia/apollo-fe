@@ -1,6 +1,8 @@
 import debug from 'debug';
 import { CALL_API } from 'redux-api-middleware';
 
+import { receivePoems } from 'reducers/poems';
+
 import reduceToIdMap from 'utils/reduceToIdMap';
 
 const log = debug('ap.performances reducer'); // eslint-disable-line no-unused-vars
@@ -8,14 +10,7 @@ const log = debug('ap.performances reducer'); // eslint-disable-line no-unused-v
 //
 
 export const SUCCESS_CREATE_PERFORMANCE = 'SUCCESS_CREATE_PERFORMANCE';
-
 const REQUEST_PAST_PERFORMANCES = 'REQUEST_PAST_PERFORMANCES';
-export const RECEIVE_PAST_PERFORMANCES = 'RECEIVE_PAST_PERFORMANCES';
-
-export const GET_PERFORMANCE_AUDIO = 'GET_PERFORMANCE_AUDIO';
-
-const RECEIVE_PERFORMANCE_FEED = 'RECEIVE_PERFORMANCE_FEED';
-
 const RECEIVE_PERFORMANCES = 'RECEIVE_PERFORMANCES';
 
 //
@@ -33,6 +28,7 @@ export default (state = initialState, action) => {
 
             return {
                 ...state,
+                isLoadingPerformances: false,
                 performancesById: {
                     ...newPerformances,
                     ...state.performancesById,
@@ -46,21 +42,7 @@ export default (state = initialState, action) => {
                 isLoadingPerformances: true,
             };
         }
-        case RECEIVE_PAST_PERFORMANCES: {
-            const { performances } = action.payload;
 
-            const performancesById = performances.reduce((acc, cur) => {
-                const perfs = acc;
-                perfs[cur.id] = cur;
-                return perfs;
-            }, {});
-
-            return {
-                ...state,
-                isLoadingPerformances: false,
-                performancesById,
-            };
-        }
         case SUCCESS_CREATE_PERFORMANCE: {
             const { performance } = action.payload;
 
@@ -109,41 +91,38 @@ export const createPerformance = id => (dispatch, getState) => {
             method: 'POST',
             types: [
                 'REQUEST_CREATE_PERFORMANCE',
-                SUCCESS_CREATE_PERFORMANCE,
+                'SUCCESS_CREATE_PERFORMANCE',
                 'FAILURE_CREATE_PERFORMANCE',
             ],
         },
     });
 };
 
-export const fetchPastPerformances = userId => ({
-    [CALL_API]: {
-        endpoint: `//localhost:8080/performance?userId=${userId}`,
-        method: 'GET',
-        types: [
-            REQUEST_PAST_PERFORMANCES,
-            RECEIVE_PAST_PERFORMANCES,
-            'FAILURE_PAST_PERFORMANCES',
-        ],
-        bailout: ({ users }) => {
-            // todo: improve bailout here because we might be
-            // requesting more past performances once pagination
-            // is enabled
-            const bailout = Boolean(users.usersById[userId].performances.length);
-            log(bailout);
-            return bailout;
+export const fetchPastPerformances = userId => dispatch => {
+    const actionResponse = dispatch({
+        [CALL_API]: {
+            endpoint: `//localhost:8080/performance?userId=${userId}`,
+            method: 'GET',
+            types: [
+                REQUEST_PAST_PERFORMANCES,
+                'RECEIVE_PAST_PERFORMANCES',
+                'FAILURE_PAST_PERFORMANCES',
+            ],
+            bailout: ({ users }) => {
+                // todo: improve bailout here because we might be
+                // requesting more past performances once pagination
+                // is enabled
+                const bailout = Boolean(users.usersById[userId].performances.length);
+                log(bailout);
+                return bailout;
+            },
         },
-    },
-});
+    });
 
-export const fetchPerformanceFeed = () => ({
-    [CALL_API]: {
-        endpoint: '//localhost:8080/performance/feed',
-        method: 'GET',
-        types: [
-            'REQUEST_PERFORMANCE_FEED',
-            RECEIVE_PERFORMANCE_FEED,
-            'FAILURE_PAST_PERFORMANCES',
-        ],
-    },
-});
+    actionResponse
+    .then(action => {
+        const { performances, poems } = action.payload;
+        dispatch(receivePerformances(performances));
+        dispatch(receivePoems(poems));
+    });
+};
