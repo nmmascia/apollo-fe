@@ -8,21 +8,15 @@ const log = debug('ap.performances'); // eslint-disable-line no-unused-vars
 
 export const getAllPerformances = state => state.performances.performancesById;
 
-const getTotalItems = state => state.feed.totalItems;
-
 export const getPastPerformancesForUser = createSelector(
     getAllPerformances,
     getUserInfo,
     getAllPoems,
     (performancesById, user, poemsById) => {
-        log('Hello?', user);
-
         const pastPerformances = user.performances.map(id => {
-            log(user, id);
-
             let performance = { ...performancesById[id] };
 
-            if (performance !== undefined) {
+            if (performancesById[id] !== undefined) {
                 const { author, title } = poemsById[performance.poemId];
                 performance.author = author || '';
                 performance.title = title || '';
@@ -36,8 +30,11 @@ export const getPastPerformancesForUser = createSelector(
                 };
             }
 
+            log(performance);
             return performance;
         });
+
+        log(pastPerformances);
 
         return pastPerformances;
     }

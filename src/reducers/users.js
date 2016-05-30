@@ -165,7 +165,7 @@ export default (state = initialState, action) => {
 export const receiveUsers = users => ({
     type: RECEIVE_USERS,
     payload: {
-        users
+        users,
     },
     meta: undefined,
 });
