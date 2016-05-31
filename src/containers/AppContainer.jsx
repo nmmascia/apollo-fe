@@ -3,17 +3,13 @@ import React, { Component, PropTypes } from 'react';
 
 import AppHeader from 'components/AppHeader';
 
-import {
-    logoutUser,
-} from 'reducers/users';
+import { logoutUser } from 'reducers/users';
 
-import {
-    getCurrentUser,
-} from 'selectors/user';
+import { getCurrentUser } from 'selectors/user';
 
 import './global.css';
 
-@connect((state) => ({
+@connect(state => ({
     currentUser: getCurrentUser(state),
 }))
 export default class AppContainer extends Component {

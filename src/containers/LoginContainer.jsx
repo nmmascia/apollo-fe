@@ -2,9 +2,7 @@ import debug from 'debug';
 import React, { Component, PropTypes } from 'react';
 import { reduxForm } from 'redux-form';
 
-import {
-    loginUserAndNavigateToProfile,
-} from 'reducers/users';
+import { loginUserAndGoToProfile } from 'actions/navigation';
 
 import LoginForm from 'components/lib/Forms/LoginForm';
 
@@ -32,7 +30,10 @@ export default class LoginContainer extends Component { // eslint-disable-line
             },
         } = this.props;
 
-        dispatch(loginUserAndNavigateToProfile(username.value, password.value));
+        dispatch(loginUserAndGoToProfile({
+            username: username.value,
+            password: password.value,
+        }));
     }
 
     render() {

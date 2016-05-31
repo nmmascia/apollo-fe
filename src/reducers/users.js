@@ -1,7 +1,6 @@
 import debug from 'debug';
 import uniq from 'lodash.uniq';
 import { CALL_API } from 'redux-api-middleware';
-import { browserHistory } from 'react-router';
 
 import { receivePoems } from 'reducers/poems';
 
@@ -47,44 +46,6 @@ export default (state = initialState, action) => {
                 usersById: {
                     ...newUsers,
                     ...state.usersById,
-                },
-            };
-        }
-
-
-        case LOGIN_USER: {
-            const { user, code } = action.payload;
-            return {
-                ...state,
-                currentUserId: user.id,
-                userToken: code,
-                usersById: {
-                    [user.id]: {
-                        ...user,
-                    },
-                },
-            };
-        }
-        case LOGOUT_USER: {
-            return {
-                ...state,
-                currentUserId: '',
-                userToken: '',
-                usersById: {
-                    [state.currentUserId]: {},
-                },
-            };
-        }
-        case RECEIVE_USER: {
-            const user = action.payload;
-            return {
-                ...state,
-                usersById: {
-                    ...state.usersById,
-                    [user.id]: {
-                        ...user,
-                        isLoading: false,
-                    },
                 },
             };
         }
@@ -169,38 +130,6 @@ export const receiveUsers = users => ({
     },
     meta: undefined,
 });
-
-export const logoutUser = () => ({
-    type: LOGOUT_USER,
-});
-
-export const loginUser = (username, password) => ({
-    [CALL_API]: {
-        endpoint: '//localhost:8080/user/auth',
-        method: 'POST',
-        body: JSON.stringify({
-            username,
-            password,
-        }),
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-        },
-        types: [
-            {
-                type: REQUEST_LOGIN,
-                payload: () => ({ username, password }),
-            },
-            LOGIN_USER,
-            'FAILURE',
-        ],
-    },
-});
-
-export const loginUserAndNavigateToProfile = (username, password) => dispatch => {
-    return dispatch(loginUser(username, password))
-    .then(response => browserHistory.push(`/profile/${response.payload.user.id}`));
-};
 
 export const fetchUser = id => ({
     [CALL_API]: {

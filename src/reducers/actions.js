@@ -15,13 +15,6 @@ import {
 
 const log = debug('ap.actions'); // eslint-disable-line no-unused-vars
 
-const GO_TO_USER_PROFILE = 'GO_TO_USER_PROFILE';
-
-export const goToUserProfile = user => dispatch => {
-    browserHistory.push(`/profile/${user}`);
-    dispatch({ type: GO_TO_USER_PROFILE, user });
-};
-
 export const getUserProfile = userId => async (dispatch, getState) => {
     await dispatch(fetchUser(userId));
 
